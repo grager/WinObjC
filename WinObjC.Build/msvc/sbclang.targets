@@ -684,12 +684,18 @@
 
   </Target>
 
+
+  <PropertyGroup>
+    <FixAdditionalLibraryDirectoriesLinkDependsOn>FixAdditionalLibraryDirectoriesWinMD</FixAdditionalLibraryDirectoriesLinkDependsOn>
+    <FixAdditionalLibraryDirectoriesLinkDependsOn Condition="'$(XamlPreLinkDependsOn)' != ''">$(FixAdditionalLibraryDirectoriesLinkDependsOn);XamlPreLink</FixAdditionalLibraryDirectoriesLinkDependsOn>
+  </PropertyGroup>
+
   <!-- The build process for XAML files adds Link item(s) in between the execution of CreateWinMD and Link targets.
        These items need to be updated with our AdditionalLibraryDirectories. Otherwise, a mismatch of
        metadata will result in multiple invocations of link.exe due to task batching. -->
   <Target
     Name="FixAdditionalLibraryDirectoriesLink"
-    DependsOnTargets="FixAdditionalLibraryDirectoriesWinMD;XamlPreLink"
+    DependsOnTargets="FixAdditionalLibraryDirectoriesLinkDependsOn"
     BeforeTargets="Link">
 
     <PropertyGroup Condition="'@(ClCompile)' != ''">
