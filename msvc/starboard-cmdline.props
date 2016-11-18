@@ -3,6 +3,17 @@
   <PropertyGroup Label="Starboard In-Situ Defaults">
     <TargetOsAndVersion Condition="'$(TargetOsAndVersion)'==''">Universal Windows</TargetOsAndVersion>
   </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <ClangCompile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary Condition="'$(Configuration)'=='Debug'">MultiThreadedDebugDLL</RuntimeLibrary>
+      <InternalSystemIncludePaths>%(InternalSystemIncludePaths);$(IncludePath);$(MSBuildThisFileDirectory)..\include\;$(MSBuildThisFileDirectory)..\include\xplat;$(MSBuildThisFileDirectory)..\include\VCInclude\;$(MSBuildThisFileDirectory)..\deps\prebuilt\include\;$(MSBuildThisFileDirectory)..\deps\prebuilt\include\icu;$([System.IO.Path]::Combine('$(MSBuildThisFileDirectory)..\include\Platform', '$(TargetOsAndVersion)'))</InternalSystemIncludePaths>
+      <IncludePaths>%(IncludePaths);$(MSBuildThisFileDirectory)..\Frameworks\include\;</IncludePaths>
+      <InternalForceIncludes>%(InternalForceIncludes);StubIncludes.h;</InternalForceIncludes>
+    </ClangCompile>
+  </ItemDefinitionGroup>
+  
   <PropertyGroup>
     <StripAppContainerBit>true</StripAppContainerBit>
   </PropertyGroup>
