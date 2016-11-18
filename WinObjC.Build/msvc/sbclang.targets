@@ -695,7 +695,7 @@
        metadata will result in multiple invocations of link.exe due to task batching. -->
   <Target
     Name="FixAdditionalLibraryDirectoriesLink"
-    DependsOnTargets="FixAdditionalLibraryDirectoriesLinkDependsOn"
+    DependsOnTargets="$(FixAdditionalLibraryDirectoriesLinkDependsOn)"
     BeforeTargets="Link">
 
     <PropertyGroup Condition="'@(ClCompile)' != ''">

@@ -3,7 +3,7 @@
     "WinObjC.Build": "0.0.1-*"
   },
   "frameworks": {
-    "native": {}
+    ".NETFramework,Version=v4.0"  : {}
   },
   "runtimes": {
     "win-arm": {},

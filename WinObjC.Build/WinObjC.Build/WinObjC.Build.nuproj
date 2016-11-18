@@ -31,6 +31,7 @@
     <IncludeContentInPackage>false</IncludeContentInPackage>
     <IncludeSymbolsInPackage>false</IncludeSymbolsInPackage>
     <IncludeFrameworkReferencesInPackage>false</IncludeFrameworkReferencesInPackage>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
   <PropertyGroup Label="Globals">
     <OutputPath>bin\$(Configuration)\</OutputPath>
