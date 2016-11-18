@@ -60,7 +60,7 @@
     
     <IslandwoodDRT>false</IslandwoodDRT>
     <StarboardIncludeDefaultLibs>false</StarboardIncludeDefaultLibs>
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(RootNamespace)\</OutDir>
+    <OutDir Condition="'$(SolutionDir)$(Platform)$(Configuration)' != ''">$(SolutionDir)$(Platform)\$(Configuration)\$(RootNamespace)\</OutDir>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -90,9 +90,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
     <Import Project="$(StarboardBasePath)\msvc\starboard-cmdline.props" />
-  </ImportGroup>
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
@@ -237,9 +235,7 @@
     <ClangCompile Include="$(StarboardBasePath)\tests\unittests\CoreFoundation\CFCppBaseTests.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="$(StarboardBasePath)\msvc\starboard-cmdline.targets" />
-  </ImportGroup>
+
   <ItemGroup>
     <None Include="Project.json" />
   </ItemGroup>

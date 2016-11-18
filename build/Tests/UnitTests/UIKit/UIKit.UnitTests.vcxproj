@@ -46,7 +46,7 @@
     <ProjectReference Include="..\..\..\MobileCoreServices\dll\MobileCoreServicesdll.vcxproj">
       <Project>{F1C44E27-6599-49C3-B4C2-D812C114B166}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\UIKIt\dll\UIKIt.vcxproj">
+    <ProjectReference Include="..\..\..\UIKit\dll\UIKit.vcxproj">
       <Project>{8E79930B-7EF6-4A4E-B46C-EFC0A49C55D9}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\WinObjCRT\dll\WinObjCRT.vcxproj">
@@ -79,7 +79,7 @@
     <StarboardBasePath>..\..\..\..</StarboardBasePath>
     
     <IslandwoodDRT>false</IslandwoodDRT>
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(RootNamespace)\</OutDir>
+    <OutDir Condition="'$(SolutionDir)$(Platform)$(Configuration)' != ''">$(SolutionDir)$(Platform)\$(Configuration)\$(RootNamespace)\</OutDir>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -109,9 +109,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
     <Import Project="$(StarboardBasePath)\msvc\starboard-cmdline.props" />
-  </ImportGroup>
   <ImportGroup Label="ExtensionSettings">
     <Import Project="$(StarboardBasePath)\msvc\ut-build.props" />
   </ImportGroup>
@@ -276,9 +274,7 @@
     <ClInclude Include="$(StarboardBasePath)\tests\unittests\UIKit\NullCompositor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="$(StarboardBasePath)\msvc\starboard-cmdline.targets" />
-  </ImportGroup>
+
   <ItemGroup>
     <None Include="Project.json" />
   </ItemGroup>
