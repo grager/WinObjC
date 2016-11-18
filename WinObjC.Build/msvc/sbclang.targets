@@ -295,36 +295,6 @@
   </Target>
   
   <Target
-    Name="HandleExplicitLibs"
-    Condition="'$(CopyStarboardLibraries)' == 'true'"
-    BeforeTargets="SBResourcePackage"
-    AfterTargets="Link">
-
-    <ItemGroup>
-      <!-- The AppInsights files are required by the Logging lib -->
-      <SBResourceCopy Include="$(StarboardLibDirs)\ApplicationInsights.winmd" />
-      <SBResourceCopy Include="$(StarboardLibDirs)\ApplicationInsights.dll" />
-      <SBResourceCopy Include="$(StarboardLibDirs)\AppInsights_Win10-UAP.dll" />
-    </ItemGroup>
-
-    <!-- UIKit.Xaml -->
-    <ItemGroup>
-      <UIKitXamlFile Include="$(StarboardLibDirs)\UIKit.Xaml\**\*.xaml" />
-      <SBResourceCopy Include="%(UIKitXamlFile.Identity)">
-        <VariantDir>UIKit\%(UIKitXamlFile.RecursiveDir)</VariantDir>
-      </SBResourceCopy>
-    </ItemGroup>
-
-    <ItemGroup>
-      <!-- CoreFoundation resource files -->
-      <SBResourceCopy Include="$(StarboardLibDirs)\CFCharacterSetBitmaps.bitmap" />
-      <SBResourceCopy Include="$(StarboardLibDirs)\CFUniCharPropertyDatabase.data" />
-      <SBResourceCopy Include="$(StarboardLibDirs)\CFUnicodeData-B.mapping" />
-      <SBResourceCopy Include="$(StarboardLibDirs)\CFUnicodeData-L.mapping" />
-    </ItemGroup>
-  </Target>
-
-  <Target
     Name="ComputeLibsToCopy"
     Condition="'$(CopyStarboardLibraries)' == 'true'"
     BeforeTargets="SBResourcePackage"

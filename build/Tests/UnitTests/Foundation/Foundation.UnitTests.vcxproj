@@ -135,7 +135,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>mincore.lib;libxml2.lib;icudt.lib;icuin.lib;icuuc.lib;libdispatch.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AppContainer>false</AppContainer>
-      <AdditionalLibraryDirectories>$(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ClangCompile>
       <IncludePaths>$(StarboardBasePath)\deps\prebuilt\include\icu;$(StarboardBasePath)\include\xplat;$(StarboardBasePath)\tests\frameworks\include;$(StarboardBasePath)\tests\frameworks\gtest;$(StarboardBasePath)\tests\frameworks\gtest\include;$(StarboardBasePath)\;%(AdditionalIncludeDirectories)</IncludePaths>
@@ -159,7 +158,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>mincore.lib;libxml2.lib;icudt.lib;icuin.lib;icuuc.lib;libdispatch.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AppContainer>false</AppContainer>
-      <AdditionalLibraryDirectories>$(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ClangCompile>
       <IncludePaths>$(StarboardBasePath)\deps\prebuilt\include\icu;$(StarboardBasePath)\include\xplat;$(StarboardBasePath)\tests\frameworks\include;$(StarboardBasePath)\tests\frameworks\gtest;$(StarboardBasePath)\tests\frameworks\gtest\include;$(StarboardBasePath)\;%(AdditionalIncludeDirectories)</IncludePaths>
@@ -187,7 +185,6 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>mincore.lib;libxml2.lib;icudt.lib;icuin.lib;icuuc.lib;libdispatch.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AppContainer>false</AppContainer>
-      <AdditionalLibraryDirectories>$(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ClangCompile>
       <IncludePaths>$(StarboardBasePath)\deps\prebuilt\include\icu;$(StarboardBasePath)\include\xplat;$(StarboardBasePath)\tests\frameworks\include;$(StarboardBasePath)\tests\frameworks\gtest;$(StarboardBasePath)\tests\frameworks\gtest\include;$(StarboardBasePath)\;%(AdditionalIncludeDirectories)</IncludePaths>
@@ -215,7 +212,6 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>mincore.lib;libxml2.lib;icudt.lib;icuin.lib;icuuc.lib;libdispatch.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AppContainer>false</AppContainer>
-      <AdditionalLibraryDirectories>$(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <ClangCompile>
       <IncludePaths>$(StarboardBasePath)\deps\prebuilt\include\icu;$(StarboardBasePath)\include\xplat;$(StarboardBasePath)\tests\frameworks\include;$(StarboardBasePath)\tests\frameworks\gtest;$(StarboardBasePath)\tests\frameworks\gtest\include;$(StarboardBasePath)\;%(AdditionalIncludeDirectories)</IncludePaths>
@@ -342,6 +338,41 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 
+  <Target
+    Name="HandleExplicitLibs"
+    Condition="'$(CopyStarboardLibraries)' == 'true'"
+    BeforeTargets="SBResourcePackage"
+    AfterTargets="Link">
+
+    <PropertyGroup>
+      <_StarboardLibDirs>$(StarboardBasePath)\build\$(Platform)\$(StarboardCRTConfig)\$(TargetOsAndVersion)</_StarboardLibDirs>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <!-- The AppInsights files are required by the Logging lib -->
+      <SBResourceCopy Include="$(_StarboardLibDirs)\ApplicationInsights.winmd" />
+      <SBResourceCopy Include="$(_StarboardLibDirs)\ApplicationInsights.dll" />
+      <SBResourceCopy Include="$(_StarboardLibDirs)\AppInsights_Win10-UAP.dll" />
+    </ItemGroup>
+
+    <!-- UIKit.Xaml -->
+    <ItemGroup>
+      <UIKitXamlFile Include="$(_StarboardLibDirs)\UIKit.Xaml\**\*.xaml" />
+      <SBResourceCopy Include="%(UIKitXamlFile.Identity)">
+        <VariantDir>UIKit\%(UIKitXamlFile.RecursiveDir)</VariantDir>
+      </SBResourceCopy>
+    </ItemGroup>
+
+    <ItemGroup>
+      <!-- CoreFoundation resource files -->
+      <SBResourceCopy Include="$(_StarboardLibDirs)\CFCharacterSetBitmaps.bitmap" />
+      <SBResourceCopy Include="$(_StarboardLibDirs)\CFUniCharPropertyDatabase.data" />
+      <SBResourceCopy Include="$(_StarboardLibDirs)\CFUnicodeData-B.mapping" />
+      <SBResourceCopy Include="$(_StarboardLibDirs)\CFUnicodeData-L.mapping" />
+    </ItemGroup>
+  </Target>
+
+
   <Target Name="CopyTestResourcesToOutput" AfterTargets="AfterBuild">
     <ItemGroup>
       <TestResourceFile Include="$(MSBuildThisFileDirectory)..\..\..\..\tests\unittests\Foundation\data\*" />
@@ -354,6 +385,7 @@
     </ItemGroup>
     <Copy SourceFiles="@(ReferenceFoundationTestResourceFile)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="True" />
   </Target>
+
   <ItemGroup>
     <None Include="Project.json" />
   </ItemGroup>
