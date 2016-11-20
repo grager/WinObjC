@@ -240,8 +240,6 @@
     <ClangCompile Include="$(StarboardBasePath)\Frameworks\AddressBook\NSDate+AddressBookAdditions.mm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <Import Project="$(StarboardBasePath)\msvc\ut-build.props" />
-
   <ItemGroup>
     <None Include="Project.json" />
   </ItemGroup>

@@ -31,6 +31,7 @@
     <IncludeContentInPackage>false</IncludeContentInPackage>
     <IncludeSymbolsInPackage>false</IncludeSymbolsInPackage>
     <IncludeFrameworkReferencesInPackage>false</IncludeFrameworkReferencesInPackage>
+    <IncludeContentInPackage>false</IncludeContentInPackage>
     <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
   <PropertyGroup Label="Globals">

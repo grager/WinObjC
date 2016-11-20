@@ -335,8 +335,6 @@
     <ClInclude Include="$(StarboardBasePath)\tests\unittests\Foundation\RuntimeTestHelpers.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <Import Project="$(StarboardBasePath)\msvc\ut-build.props" />
-  
   <Target Name="CopyTestResourcesToOutput" AfterTargets="AfterBuild">
     <ItemGroup>
       <TestResourceFile Include="$(MSBuildThisFileDirectory)..\..\..\..\tests\unittests\Foundation\data\*" />
