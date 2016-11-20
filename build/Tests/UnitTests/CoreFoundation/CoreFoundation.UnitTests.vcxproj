@@ -57,10 +57,8 @@
     <WindowsAppContainer>false</WindowsAppContainer>
     <TargetOsAndVersion>Universal Windows</TargetOsAndVersion>
     <StarboardBasePath>..\..\..\..</StarboardBasePath>
+    <IslandwoodDRT>false</IslandwoodDRT><StarboardIncludeDefaultLibs>false</StarboardIncludeDefaultLibs>
     
-    <IslandwoodDRT>false</IslandwoodDRT>
-    <StarboardIncludeDefaultLibs>false</StarboardIncludeDefaultLibs>
-    <OutDir Condition="'$(SolutionDir)$(Platform)$(Configuration)' != ''">$(SolutionDir)$(Platform)\$(Configuration)\$(RootNamespace)\</OutDir>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
