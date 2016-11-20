@@ -274,6 +274,7 @@
     <ClInclude Include="$(StarboardBasePath)\tests\unittests\UIKit\NullCompositor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(StarboardBasePath)\msvc\ut-build.props" />
 
   <ItemGroup>
     <None Include="Project.json" />

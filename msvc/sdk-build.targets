@@ -21,5 +21,7 @@
       CopyCoreFoundationPrivateHeadersToIncludes;
       CopyCoreFoundationPublicHeadersToIncludes;
     </BuildGenerateSourcesTargets>
+
+    <SkipCopyBuildProduct>false</SkipCopyBuildProduct>
   </PropertyGroup>
 </Project>

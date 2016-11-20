@@ -132,12 +132,12 @@
       <AdditionalDependencies>Wex.Logger.lib;Wex.Common.lib;TE.Common.lib;libdispatch.lib;RTObjCInterop.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClangCompile>
-      <IncludePaths>$(MSBuildThisFileDirectory)..\..\..\include;$(MSBuildThisFileDirectory)..\..\..\Frameworks\include;$(MSBuildThisFileDirectory)..\..\..\Frameworks\UIKit.Xaml;$(MSBuildThisFileDirectory)..\..\..\include\xplat;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\include;$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest\include;$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\include\TAEF;%(IncludePaths)</IncludePaths>
+      <IncludePaths>$(MSBuildThisFileDirectory)..\..\..\Frameworks\include;$(MSBuildThisFileDirectory)..\..\..\Frameworks\UIKit.Xaml;$(MSBuildThisFileDirectory)..\..\..\include\xplat;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\include;$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest\include;$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\include\TAEF;%(IncludePaths)</IncludePaths>
       <CompileAs>CompileAsObjCpp</CompileAs>
       <OtherCPlusPlusFlags>-Wdeprecated-declarations</OtherCPlusPlusFlags>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DEBUG=1;FUNCTIONAL_TEST_FRAMEWORK</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <InternalSystemIncludePaths>%(InternalSystemIncludePaths);$(MSBuildThisFileDirectory)..\..\..\include\Platform\$(TargetOsAndVersion);</InternalSystemIncludePaths>
+      <InternalSystemIncludePaths>%(InternalSystemIncludePaths);$(MSBuildThisFileDirectory)..\..\..\include\Platform\$(TargetOsAndVersion);$(MSBuildThisFileDirectory)..\..\..\include;</InternalSystemIncludePaths>
     </ClangCompile>
     <PostBuildEvent>
       <Command>For %%f in ("$(ProjectDir)..\..\..\tests\functionaltests\Tests\AssetsLibraryTests\*.mp4") do (xcopy /y %%f "$(TargetDir)\data\")</Command>
@@ -165,12 +165,12 @@
       <AdditionalDependencies>Wex.Logger.lib;Wex.Common.lib;TE.Common.lib;libdispatch.lib;RTObjCInterop.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClangCompile>
-      <IncludePaths>$(MSBuildThisFileDirectory)..\..\..\Frameworks\include;$(MSBuildThisFileDirectory)..\..\..\include;$(MSBuildThisFileDirectory)..\..\..\Frameworks\UIKit.Xaml;$(MSBuildThisFileDirectory)..\..\..\include\xplat;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\include;$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest\include;$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\include\TAEF;%(IncludePaths)</IncludePaths>
+      <IncludePaths>$(MSBuildThisFileDirectory)..\..\..\Frameworks\include;$(MSBuildThisFileDirectory)..\..\..\Frameworks\UIKit.Xaml;$(MSBuildThisFileDirectory)..\..\..\include\xplat;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\include;$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest\include;$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\include\TAEF;%(IncludePaths)</IncludePaths>
       <CompileAs>CompileAsObjCpp</CompileAs>
       <OtherCPlusPlusFlags>-Wdeprecated-declarations</OtherCPlusPlusFlags>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DEBUG=1;FUNCTIONAL_TEST_FRAMEWORK</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <InternalSystemIncludePaths>%(InternalSystemIncludePaths);$(MSBuildThisFileDirectory)..\..\..\include\Platform\$(TargetOsAndVersion);</InternalSystemIncludePaths>
+      <InternalSystemIncludePaths>%(InternalSystemIncludePaths);$(MSBuildThisFileDirectory)..\..\..\include\Platform\$(TargetOsAndVersion);$(MSBuildThisFileDirectory)..\..\..\include;</InternalSystemIncludePaths>
     </ClangCompile>
     <PostBuildEvent>
       <Command>For %%f in ("$(ProjectDir)..\..\..\tests\functionaltests\Tests\AssetsLibraryTests\*.mp4") do (xcopy /y %%f "$(TargetDir)\data\")</Command>
@@ -194,12 +194,12 @@
       <AdditionalDependencies>Wex.Logger.lib;Wex.Common.lib;TE.Common.lib;libdispatch.lib;RTObjCInterop.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClangCompile>
-      <IncludePaths>$(MSBuildThisFileDirectory)..\..\..\Frameworks\include;$(MSBuildThisFileDirectory)..\..\..\include;$(MSBuildThisFileDirectory)..\..\..\Frameworks\UIKit.Xaml;$(MSBuildThisFileDirectory)..\..\..\include\xplat;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\include;$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest\include;$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\include\TAEF;%(IncludePaths)</IncludePaths>
+      <IncludePaths>$(MSBuildThisFileDirectory)..\..\..\Frameworks\include;$(MSBuildThisFileDirectory)..\..\..\Frameworks\UIKit.Xaml;$(MSBuildThisFileDirectory)..\..\..\include\xplat;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\include;$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest\include;$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\include\TAEF;%(IncludePaths)</IncludePaths>
       <CompileAs>CompileAsObjCpp</CompileAs>
       <OtherCPlusPlusFlags>-Wdeprecated-declarations</OtherCPlusPlusFlags>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DEBUG=1;FUNCTIONAL_TEST_FRAMEWORK</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <InternalSystemIncludePaths>%(InternalSystemIncludePaths);$(MSBuildThisFileDirectory)..\..\..\include\Platform\$(TargetOsAndVersion);</InternalSystemIncludePaths>
+      <InternalSystemIncludePaths>%(InternalSystemIncludePaths);$(MSBuildThisFileDirectory)..\..\..\include\Platform\$(TargetOsAndVersion);$(MSBuildThisFileDirectory)..\..\..\include;</InternalSystemIncludePaths>
     </ClangCompile>
     <PostBuildEvent>
       <Command>For %%f in ("$(ProjectDir)..\..\..\tests\functionaltests\Tests\AssetsLibraryTests\*.mp4") do (xcopy /y %%f "$(TargetDir)\data\")</Command>
@@ -227,12 +227,12 @@
       <AdditionalDependencies>Wex.Logger.lib;Wex.Common.lib;TE.Common.lib;libdispatch.lib;RTObjCInterop.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClangCompile>
-      <IncludePaths>$(MSBuildThisFileDirectory)..\..\..\Frameworks\include;$(MSBuildThisFileDirectory)..\..\..\include;$(MSBuildThisFileDirectory)..\..\..\Frameworks\UIKit.Xaml;$(MSBuildThisFileDirectory)..\..\..\include\xplat;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\include;$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest\include;$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\include\TAEF;%(IncludePaths)</IncludePaths>
+      <IncludePaths>$(MSBuildThisFileDirectory)..\..\..\Frameworks\include;$(MSBuildThisFileDirectory)..\..\..\Frameworks\UIKit.Xaml;$(MSBuildThisFileDirectory)..\..\..\include\xplat;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\include;$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest\include;$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\include\TAEF;%(IncludePaths)</IncludePaths>
       <CompileAs>CompileAsObjCpp</CompileAs>
       <OtherCPlusPlusFlags>-Wdeprecated-declarations</OtherCPlusPlusFlags>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DEBUG=1;FUNCTIONAL_TEST_FRAMEWORK</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <InternalSystemIncludePaths>%(InternalSystemIncludePaths);$(MSBuildThisFileDirectory)..\..\..\include\Platform\$(TargetOsAndVersion);</InternalSystemIncludePaths>
+      <InternalSystemIncludePaths>%(InternalSystemIncludePaths);$(MSBuildThisFileDirectory)..\..\..\include\Platform\$(TargetOsAndVersion);$(MSBuildThisFileDirectory)..\..\..\include;</InternalSystemIncludePaths>
     </ClangCompile>
     <PostBuildEvent>
       <Command>For %%f in ("$(ProjectDir)..\..\..\tests\functionaltests\Tests\AssetsLibraryTests\*.mp4") do (xcopy /y %%f "$(TargetDir)\data\")</Command>
@@ -255,11 +255,9 @@
   <ItemGroup>
     <ClangCompile Include="$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests\Tests\NSURLConnection.mm">
       <ObjectiveCARC>true</ObjectiveCARC>
-      <InternalSystemIncludePaths>%(InternalSystemIncludePaths);$(MSBuildThisFileDirectory)..\..\..\include\Platform\$(TargetOsAndVersion);</InternalSystemIncludePaths>
     </ClangCompile>
     <ClangCompile Include="$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests\Tests\NSURLSession.mm">
       <ObjectiveCARC>true</ObjectiveCARC>
-      <InternalSystemIncludePaths>%(InternalSystemIncludePaths);$(MSBuildThisFileDirectory)..\..\..\include\Platform\$(TargetOsAndVersion);</InternalSystemIncludePaths>
     </ClangCompile>
     <ClangCompile Include="$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests\Tests\NSUserDefaultsTests.mm" />
     <ClangCompile Include="$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests\Tests\NSBundleTests.mm" />
@@ -282,11 +280,9 @@
     <ClangCompile Include="$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests\Tests\ProjectionTests\SanityTests.mm" />
     <ClangCompile Include="$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests\Tests\ProjectionTests\SanityTestsWithARCEnabled.mm">
       <ObjectiveCARC>true</ObjectiveCARC>
-      <InternalSystemIncludePaths>%(InternalSystemIncludePaths);$(MSBuildThisFileDirectory)..\..\..\include\Platform\$(TargetOsAndVersion);</InternalSystemIncludePaths>
     </ClangCompile>
     <ClangCompile Include="$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests\Tests\NSURLStorageFileTests.mm">
       <ObjectiveCARC>true</ObjectiveCARC>
-      <InternalSystemIncludePaths>%(InternalSystemIncludePaths);$(MSBuildThisFileDirectory)..\..\..\include\Platform\$(TargetOsAndVersion);</InternalSystemIncludePaths>
     </ClangCompile>
   </ItemGroup>
   <ItemGroup>
@@ -300,6 +296,7 @@
     <Copy DestinationFolder="$(OutDir)" SkipUnchangedFiles="True" SourceFiles="@(Xml)" />
   </Target>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(StarboardBasePath)\msvc\ut-build.props" />
   <Target Name="Build" DependsOnTargets="$(BuildDependsOn)" />
   <ItemGroup>
     <None Include="Project.json" />

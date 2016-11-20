@@ -226,6 +226,7 @@
     <ClangCompile Include="$(StarboardBasePath)\tests\unittests\AudioToolbox\ExampleTest.m" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(StarboardBasePath)\msvc\ut-build.props" />
 
   <ItemGroup>
     <None Include="Project.json" />

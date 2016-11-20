@@ -337,42 +337,8 @@
     <ClInclude Include="$(StarboardBasePath)\tests\unittests\Foundation\RuntimeTestHelpers.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-
-  <Target
-    Name="HandleExplicitLibs"
-    Condition="'$(CopyStarboardLibraries)' == 'true'"
-    BeforeTargets="SBResourcePackage"
-    AfterTargets="Link">
-
-    <PropertyGroup>
-      <_StarboardLibDirs>$(StarboardBasePath)\build\$(Platform)\$(StarboardCRTConfig)\$(TargetOsAndVersion)</_StarboardLibDirs>
-    </PropertyGroup>
-
-    <ItemGroup>
-      <!-- The AppInsights files are required by the Logging lib -->
-      <SBResourceCopy Include="$(_StarboardLibDirs)\ApplicationInsights.winmd" />
-      <SBResourceCopy Include="$(_StarboardLibDirs)\ApplicationInsights.dll" />
-      <SBResourceCopy Include="$(_StarboardLibDirs)\AppInsights_Win10-UAP.dll" />
-    </ItemGroup>
-
-    <!-- UIKit.Xaml -->
-    <ItemGroup>
-      <UIKitXamlFile Include="$(_StarboardLibDirs)\UIKit.Xaml\**\*.xaml" />
-      <SBResourceCopy Include="%(UIKitXamlFile.Identity)">
-        <VariantDir>UIKit\%(UIKitXamlFile.RecursiveDir)</VariantDir>
-      </SBResourceCopy>
-    </ItemGroup>
-
-    <ItemGroup>
-      <!-- CoreFoundation resource files -->
-      <SBResourceCopy Include="$(_StarboardLibDirs)\CFCharacterSetBitmaps.bitmap" />
-      <SBResourceCopy Include="$(_StarboardLibDirs)\CFUniCharPropertyDatabase.data" />
-      <SBResourceCopy Include="$(_StarboardLibDirs)\CFUnicodeData-B.mapping" />
-      <SBResourceCopy Include="$(_StarboardLibDirs)\CFUnicodeData-L.mapping" />
-    </ItemGroup>
-  </Target>
-
-
+  <Import Project="$(StarboardBasePath)\msvc\ut-build.props" />
+  
   <Target Name="CopyTestResourcesToOutput" AfterTargets="AfterBuild">
     <ItemGroup>
       <TestResourceFile Include="$(MSBuildThisFileDirectory)..\..\..\..\tests\unittests\Foundation\data\*" />
