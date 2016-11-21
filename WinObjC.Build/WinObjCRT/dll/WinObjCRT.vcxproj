@@ -54,15 +54,64 @@
   <ItemGroup>
     <None Include="Project.json" />
   </ItemGroup>
-  <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" DependsOnTargets="$(ComputeLinkInputsTargets)">
-    <ItemGroup>
-      <_ImportLibraryFileNames  Include="@(Link -> '%(ImportLibrary)')"></_ImportLibraryFileNames>
+
+  <Target Name="AddBuiltOutput" 
+          BeforeTargets="GetPackageContents" 
+          DependsOnTargets="$(ComputeLinkInputsTargets)">
+    <ItemGroup>      
+    <_ImportLibraryFileNames  Include="@(Link -> '%(ImportLibrary)')"></_ImportLibraryFileNames>
       <PackageFile Include="@(BuiltProjectOutputGroupOutput -> '%(FinalOutputPath)')">
-        <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\%(Filename)%(Extension)</PackagePath>
+        <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\$(Configuration)\%(Filename)%(Extension)</PackagePath>
       </PackageFile>
       <PackageFile Include="@(_ImportLibraryFileNames->Distinct())">
-        <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\%(Filename)%(Extension)</PackagePath>
+        <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\$(Configuration)\%(Filename)%(Extension)</PackagePath>
       </PackageFile>
     </ItemGroup>
+
+    <!-- Time to get fancy. WinObjCRT is needed in both debug and release configurations in the package. The below target re-runs the build automagically 
+     so here we just need to make sure to pick up the extra outputs. The same trick is used by re-running the AddBuiltOutput target on the other configs. -->
+    <ItemGroup>
+      <_PackTargetConfig Include="%(ProjectConfiguration.Configuration)"
+              Condition="'%(ProjectConfiguration.Platform)' == '$(Platform)' AND '%(ProjectConfiguration.Configuration)' != '$(Configuration)'" />
+    </ItemGroup>
+
+    <Message Text="Gathering $(MSBuildThisFile) package outputs for the following Configurations: @(_PackTargetConfig)" Importance="High" Condition="'$(SkipRerunAddBuiltOutputForOtherConfig)' != 'true'"/>
+    <MSBuild Projects="$(MSBuildProjectFile)"
+         Targets="GetPackageContents"
+         Properties="SkipRerunAddBuiltOutputForOtherConfig=true;Platform=$(Platform);Configuration=%(_PackTargetConfig.Identity)"
+         Condition="'$(SkipRerunAddBuiltOutputForOtherConfig)' != 'true'">
+      <Output TaskParameter="TargetOutputs" ItemName="_OtherConfigPackageContent" />
+    </MSBuild>
+
+    <Message Text="Other Config Package Contents: @(_OtherConfigPackageContent)"/>
+
+    <ItemGroup Condition="'$(SkipRerunAddBuiltOutputForOtherConfig)' != 'true'">
+      <PackageFile Include="@(_OtherConfigPackageContent)" />
+    </ItemGroup>
+
+    <Message Text="Current Package Contents: @(PackageFile)"/>
+    <Message Text="Current Package Paths: %(PackageFile.PackagePath)"/>
+
+  </Target>
+
+  <Target Name="RerunBuildForOtherConfig"
+          AfterTargets="Build"
+          Condition="'$(SkipRerunBuildForOtherConfig)' != 'true'">
+    <ItemGroup>
+      <!-- Build up list of configurations that don't match the current one. Make sure to build for the same
+           Platform though. This should result in rerunning Build for Release if we build Debug / vice versa -->
+      <_BuildTargetConfig Include="%(ProjectConfiguration.Configuration)"
+              Condition="'%(ProjectConfiguration.Platform)' == '$(Platform)' AND '%(ProjectConfiguration.Configuration)' != '$(Configuration)'" />
+    </ItemGroup>
+
+    <Message Text="Rebuilding $(MSBuildThisFile) for the following Configurations: @(_BuildTargetConfig)" Importance="High"/>
+
+    <!-- Make sure to specify SkipRerunBuildForOtherConfig true so we don't recurse -->
+    <!-- Make sure to specify ShouldUnsetParentConfigurationAndPlatform false and unset the SolutionConfig so that VS doesn't muck with the configs we are
+         assigning here. Seems *really* weird to change it so that referenced project reset the config in VS but who knows!!! -->
+    <MSBuild Projects="$(MSBuildProjectFile)"
+         Targets="Build"
+         Properties="ShouldUnsetParentConfigurationAndPlatform=false;SkipRerunBuildForOtherConfig=true;Platform=$(Platform);Configuration=%(_BuildTargetConfig.Identity);CurrentSolutionConfigurationContents=;">
+    </MSBuild>
   </Target>
 </Project>
