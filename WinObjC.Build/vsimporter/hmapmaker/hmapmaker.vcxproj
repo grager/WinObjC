@@ -101,7 +101,7 @@
     <ClCompile Include="..\src\windows\realpath.c" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\deps\3rdparty\AppInsights\Projects\AppInsights_Win32\core\core.vcxproj">
+    <ProjectReference Include="..\..\AppInsights\Projects\AppInsights_Win32\core\core.vcxproj">
       <Project>{f2377726-d69d-4a26-a3af-969fd0399427}</Project>
     </ProjectReference>
     <ProjectReference Include="..\WBITelemetry\WBITelemetry.vcxproj">

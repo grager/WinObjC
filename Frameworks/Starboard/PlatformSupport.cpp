@@ -98,18 +98,12 @@ void EbrSleep(__int64 nanoseconds) {
     Sleep((DWORD)(nanoseconds / 1000000LL));
 }
 
-#define PTW32_TIMESPEC_TO_FILETIME_OFFSET (((LONGLONG)27111902 << 32) + (LONGLONG)3577643008)
-
-static void filetime_to_timeval(const FILETIME* ft, struct EbrTimeval* ts) {
-    ts->tv_sec = (int)((*(LONGLONG*)ft - PTW32_TIMESPEC_TO_FILETIME_OFFSET) / 10000000);
-    ts->tv_usec = (int)((*(LONGLONG*)ft - PTW32_TIMESPEC_TO_FILETIME_OFFSET - ((LONGLONG)ts->tv_sec * (LONGLONG)10000000)) / 10);
-}
-
 int EbrGetTimeOfDay(struct EbrTimeval* curtime) {
-    FILETIME ft;
+    timeval tv;
+    gettimeofday(&tv, nullptr);
 
-    GetSystemTimeAsFileTime(&ft);
-    filetime_to_timeval(&ft, curtime);
+    curtime->tv_sec = ts->tv_sec;
+    curtime->tv_usec = ts->tv_usec;
 
     return 0;
 }
@@ -144,4 +138,3 @@ extern "C" int EbrAssert(const char* expr, const char* file, int line) {
     printf("Assertion %s:%d: %s\n", file, line, expr);
     return 0;
 }
-

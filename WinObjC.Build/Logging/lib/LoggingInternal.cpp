@@ -14,23 +14,29 @@
 //
 //******************************************************************************
 
-#include <Starboard.h>
-#include <Starboard/String.h>
+#include "Logging\LoggingInternal.h"
 
-#include <cstdarg>
-#include <string>
+TRACELOGGING_DEFINE_PROVIDER(s_traceLoggingProvider,
+                             "WinObjCTraceLoggingProvider",
+                             (0xe4babc11, 0x825e, 0x4d44, 0x81, 0x4, 0xd6, 0xcf, 0xac, 0x39, 0xae, 0x13));
 
-std::string woc::string::format[[gnu::format(printf, 1, 2)]](const char* format, ...) {
-    va_list arguments, arguments2;
-    va_start(arguments, format);
-    // Compiler Issue: va_copy is emitted as __vacopy, and is an undefined external.
-    // stdarg.h specifies va_copy as ((dest)=(src)). As such, we inline it here.
-    // va_copy(arguments2, arguments);
-    arguments2 = arguments;
-    size_t size = _vscprintf(format, arguments);
-    va_end(arguments);
-    std::string ret(size + 1, '\0');
-    _vsnprintf_s(&ret[0], size + 1, size, format, arguments2);
-    va_end(arguments2);
-    return ret;
+void _vdebugPrintf(const wchar_t* format, va_list va) {
+#ifdef _DEBUG
+    wchar_t buf[c_bufferCount];
+    _vsnwprintf_s(buf, _countof(buf), _TRUNCATE, format, va);
+    OutputDebugStringW(buf);
+    if (g_isTestHookEnabled) {
+        std::wstring bufString(buf);
+        g_debugTestHook = bufString;
+    }
+#endif
+}
+
+void _debugPrintf(const wchar_t* format, ...) {
+#ifdef _DEBUG
+    va_list va;
+    va_start(va, format);
+    _vdebugPrintf(format, va);
+    va_end(va);
+#endif
 }

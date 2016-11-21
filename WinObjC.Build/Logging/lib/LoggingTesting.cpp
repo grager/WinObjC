@@ -14,23 +14,12 @@
 //
 //******************************************************************************
 
-#include <Starboard.h>
-#include <Starboard/String.h>
+#include "Logging\LoggingTesting.h"
 
-#include <cstdarg>
-#include <string>
-
-std::string woc::string::format[[gnu::format(printf, 1, 2)]](const char* format, ...) {
-    va_list arguments, arguments2;
-    va_start(arguments, format);
-    // Compiler Issue: va_copy is emitted as __vacopy, and is an undefined external.
-    // stdarg.h specifies va_copy as ((dest)=(src)). As such, we inline it here.
-    // va_copy(arguments2, arguments);
-    arguments2 = arguments;
-    size_t size = _vscprintf(format, arguments);
-    va_end(arguments);
-    std::string ret(size + 1, '\0');
-    _vsnprintf_s(&ret[0], size + 1, size, format, arguments2);
-    va_end(arguments2);
-    return ret;
-}
+// Test hooks
+bool g_isTestHookEnabled = false;
+std::wstring g_debugTestHook;
+int g_etlLevelTestHook = -1;
+std::wstring g_etlTagTestHook;
+std::wstring g_etlBufferTestHook;
+std::string g_etlBufferNarrowTestHook;
