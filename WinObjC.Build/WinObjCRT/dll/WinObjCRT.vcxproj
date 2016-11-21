@@ -34,6 +34,8 @@
     <RootNamespace>WinObjCRT</RootNamespace>
     <AppContainerApplication>true</AppContainerApplication>
     <OutputName>WinObjCRT</OutputName>
+    <IncludeOutputsInPackage>false</IncludeOutputsInPackage>
+    <IncludeContentInPackage>false</IncludeContentInPackage>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -49,4 +51,18 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(MSBuildThisFileDirectory)..\..\common\common-build.targets" />
   </ImportGroup>
+  <ItemGroup>
+    <None Include="Project.json" />
+  </ItemGroup>
+  <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" DependsOnTargets="$(ComputeLinkInputsTargets)">
+    <ItemGroup>
+      <_ImportLibraryFileNames  Include="@(Link -> '%(ImportLibrary)')"></_ImportLibraryFileNames>
+      <PackageFile Include="@(BuiltProjectOutputGroupOutput -> '%(FinalOutputPath)')">
+        <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\%(Filename)%(Extension)</PackagePath>
+      </PackageFile>
+      <PackageFile Include="@(_ImportLibraryFileNames->Distinct())">
+        <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\%(Filename)%(Extension)</PackagePath>
+      </PackageFile>
+    </ItemGroup>
+  </Target>
 </Project>

@@ -24,6 +24,8 @@
     <RootNamespace>IwNewLib</RootNamespace>
     <AppContainerApplication>true</AppContainerApplication>
     <OutputName>IwNewLib</OutputName>
+    <IncludeOutputsInPackage>false</IncludeOutputsInPackage>
+    <IncludeContentInPackage>false</IncludeContentInPackage>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -37,4 +39,14 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(MSBuildThisFileDirectory)..\..\common\common-build.targets" />
   </ImportGroup>
+    <ItemGroup>
+    <None Include="Project.json" />
+  </ItemGroup>
+  <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" DependsOnTargets="AllProjectOutputGroups">
+    <ItemGroup>
+      <PackageFile Include="@(BuiltProjectOutputGroupKeyOutput -> '%(FinalOutputPath)')">
+        <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\%(Filename)%(Extension)</PackagePath>
+      </PackageFile>
+    </ItemGroup>
+  </Target>
 </Project>

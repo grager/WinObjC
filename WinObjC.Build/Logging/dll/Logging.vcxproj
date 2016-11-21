@@ -31,6 +31,8 @@
     <RootNamespace>Logging</RootNamespace>
     <AppContainerApplication>true</AppContainerApplication>
     <OutputName>Logging</OutputName>
+    <IncludeOutputsInPackage>false</IncludeOutputsInPackage>
+    <IncludeContentInPackage>false</IncludeContentInPackage>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -61,4 +63,18 @@
       <Project>{D3500720-CF56-43AB-A9D6-9DC119A411B8}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Project.json" />
+  </ItemGroup>
+  <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" DependsOnTargets="$(ComputeLinkInputsTargets)">
+    <ItemGroup>
+      <_ImportLibraryFileNames  Include="@(Link -> '%(ImportLibrary)')"></_ImportLibraryFileNames>
+      <PackageFile Include="@(BuiltProjectOutputGroupOutput -> '%(FinalOutputPath)')">
+        <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\%(Filename)%(Extension)</PackagePath>
+      </PackageFile>
+      <PackageFile Include="@(_ImportLibraryFileNames->Distinct())">
+        <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\%(Filename)%(Extension)</PackagePath>
+      </PackageFile>
+    </ItemGroup>
+  </Target>
 </Project>
