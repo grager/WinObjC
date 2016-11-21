@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+<!-- This set of targets is used to replace the set of "normal targets" that are expected to exist in a native cpp build. -->
+<!-- These are then forwarded on to the real ones in all the other platforms. -->
+  <Target Name="Build">
+    <ItemGroup>
+      <!-- Build up list of configurations that don't match the current one. Make sure to build for the same
+           Platform though. This should result in rerunning Build for Release if we build Debug / vice versa -->
+      <_BuildTargetPlat Include="%(ProjectConfiguration.Platform)"
+              Condition="'%(ProjectConfiguration.Configuration)' == '$(Configuration)' AND '%(ProjectConfiguration.Platform)' != '$(Platform)'" />
+    </ItemGroup>
+
+    <Message Text="Rebuilding $(MSBuildProjectFile) for the following Platforms: @(_BuildTargetPlat)" Importance="High"/>
+
+    <!-- Make sure to specify ShouldUnsetParentConfigurationAndPlatform false and unset the SolutionConfig so that VS doesn't muck with the configs we are
+         assigning here. Seems *really* weird to change it so that referenced project reset the config in VS but who knows!!! -->
+    <MSBuild Projects="$(MSBuildProjectFile)"
+         Targets="Build"
+         Properties="ShouldUnsetParentConfigurationAndPlatform=false;Configuration=$(Configuration);Platform=%(_BuildTargetPlat.Identity);CurrentSolutionConfigurationContents=;">
+    </MSBuild>
+  </Target>
+
+</Project>

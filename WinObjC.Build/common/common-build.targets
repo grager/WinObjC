@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+<!-- If its an AnyCPU don't import the normal C++ target. Instead import the cross targeting ones. -->
+<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" Condition="'$(Platform)' != 'AnyCPU'"/>
+<Import Project="$(MSBuildThisFileDirectory)\cross-targeting.targets" Condition="'$(Platform)' == 'AnyCPU'"/>
 
 </Project>
