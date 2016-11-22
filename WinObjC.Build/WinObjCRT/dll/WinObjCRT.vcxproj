@@ -78,7 +78,7 @@
     <Message Text="Gathering $(MSBuildThisFile) package outputs for the following Configurations: @(_PackTargetConfig)" Importance="High" Condition="'$(SkipRerunAddBuiltOutputForOtherConfig)' != 'true'"/>
     <MSBuild Projects="$(MSBuildProjectFile)"
          Targets="GetPackageContents"
-         Properties="SkipRerunAddBuiltOutputForOtherConfig=true;Platform=$(Platform);Configuration=%(_PackTargetConfig.Identity)"
+         Properties="SkipRerunAddBuiltOutputForOtherConfig=true;Platform=$(Platform);Configuration=%(_PackTargetConfig.Identity);ShouldUnsetParentConfigurationAndPlatform=false;"
          Condition="'$(SkipRerunAddBuiltOutputForOtherConfig)' != 'true'">
       <Output TaskParameter="TargetOutputs" ItemName="_OtherConfigPackageContent" />
     </MSBuild>
@@ -94,24 +94,5 @@
 
   </Target>
 
-  <Target Name="RerunBuildForOtherConfig"
-          AfterTargets="Build"
-          Condition="'$(SkipRerunBuildForOtherConfig)' != 'true'">
-    <ItemGroup>
-      <!-- Build up list of configurations that don't match the current one. Make sure to build for the same
-           Platform though. This should result in rerunning Build for Release if we build Debug / vice versa -->
-      <_BuildTargetConfig Include="%(ProjectConfiguration.Configuration)"
-              Condition="'%(ProjectConfiguration.Platform)' == '$(Platform)' AND '%(ProjectConfiguration.Configuration)' != '$(Configuration)'" />
-    </ItemGroup>
-
-    <Message Text="Rebuilding $(MSBuildThisFile) for the following Configurations: @(_BuildTargetConfig)" Importance="High"/>
-
-    <!-- Make sure to specify SkipRerunBuildForOtherConfig true so we don't recurse -->
-    <!-- Make sure to specify ShouldUnsetParentConfigurationAndPlatform false and unset the SolutionConfig so that VS doesn't muck with the configs we are
-         assigning here. Seems *really* weird to change it so that referenced project reset the config in VS but who knows!!! -->
-    <MSBuild Projects="$(MSBuildProjectFile)"
-         Targets="Build"
-         Properties="ShouldUnsetParentConfigurationAndPlatform=false;SkipRerunBuildForOtherConfig=true;Platform=$(Platform);Configuration=%(_BuildTargetConfig.Identity);CurrentSolutionConfigurationContents=;">
-    </MSBuild>
-  </Target>
+ 
 </Project>
