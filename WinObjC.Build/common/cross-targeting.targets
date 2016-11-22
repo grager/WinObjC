@@ -50,7 +50,7 @@
 
     <MSBuild Projects="$(MSBuildProjectFile)"
          Targets="GetPackageContents"
-         Properties="Configuration=$(Configuration);Platform=%(_PackageTargetPlat.Identity);CurrentSolutionConfigurationContents=;">
+         Properties="ShouldUnsetParentConfigurationAndPlatform=false;Configuration=$(Configuration);Platform=%(_PackageTargetPlat.Identity);CurrentSolutionConfigurationContents=;">
       <Output TaskParameter="TargetOutputs" ItemName="_PackageContent" />
     </MSBuild>
   </Target>
