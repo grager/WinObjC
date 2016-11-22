@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
+  <PropertyGroup Label="Globals">
+    <!-- Lies, damned lies, and things to get the build working -->
+    <OutputPath>$(MSBuildProjectDirectory)\$(Configuration)\</OutputPath>
+    <NuGetTargetMoniker>UAP,Version=v10.0</NuGetTargetMoniker>
+    <PlatformTarget>x86</PlatformTarget>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+  </PropertyGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+
 <!-- This set of targets is used to replace the set of "normal targets" that are expected to exist in a native cpp build. -->
 <!-- These are then forwarded on to the real ones in all the other platforms. -->
   <Target Name="Build">
@@ -14,11 +23,35 @@
     <Message Text="Rebuilding $(MSBuildProjectFile) for the following Platforms: @(_BuildTargetPlat)" Importance="High"/>
 
     <!-- Make sure to specify ShouldUnsetParentConfigurationAndPlatform false and unset the SolutionConfig so that VS doesn't muck with the configs we are
-         assigning here. Seems *really* weird to change it so that referenced project reset the config in VS but who knows!!! -->
+         assigning here. The idea behind this is that VS assumes that the solution configuration is the final source of truth and *really* doesn't like
+         deviating from it because it may have information that makes it able to build a project in a configuration that it otherwise wouldn't know how
+         to handle so it looks up the project configuration from the colution information, changes output directories etc... Here though we are explicity
+         wanting to rebuild this project under a different configuration than specified in the solution config, namely because a solution config doesn't 
+         allow multiple build passes in a single config. -->
     <MSBuild Projects="$(MSBuildProjectFile)"
          Targets="Build"
          Properties="ShouldUnsetParentConfigurationAndPlatform=false;Configuration=$(Configuration);Platform=%(_BuildTargetPlat.Identity);CurrentSolutionConfigurationContents=;">
     </MSBuild>
   </Target>
 
+  <Target Name="CreateManifestResourceNames" />
+  <Target Name="GetReferenceAssemblyPaths" />
+ 
+  <!-- Overide the normal nugetizer GetPackageContents to aggregate across the other builds -->
+  <Target Name="GetPackageContents" Returns="@(_PackageContent)">
+   <ItemGroup>
+      <!-- Build up list of configurations that don't match the current one. Make sure to build for the same
+           Platform though. This should result in rerunning Build for Release if we build Debug / vice versa -->
+      <_PackageTargetPlat Include="%(ProjectConfiguration.Platform)"
+              Condition="'%(ProjectConfiguration.Configuration)' == '$(Configuration)' AND '%(ProjectConfiguration.Platform)' != '$(Platform)'" />
+    </ItemGroup>
+
+    <Message Text="Calling GetPackageContents another time in $(MSBuildProjectFile) for the following Platforms: @(_PackageTargetPlat)" Importance="High"/>
+
+    <MSBuild Projects="$(MSBuildProjectFile)"
+         Targets="GetPackageContents"
+         Properties="Configuration=$(Configuration);Platform=%(_PackageTargetPlat.Identity);CurrentSolutionConfigurationContents=;">
+      <Output TaskParameter="TargetOutputs" ItemName="_PackageContent" />
+    </MSBuild>
+  </Target>
 </Project>

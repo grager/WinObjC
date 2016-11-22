@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <!-- Add new platform of Any CPU for both configurations. This platform really
-   means "Build all of the other ones" which is in effect is building for any CPU -->
+  <!-- Add new platform of AnyCPU for both configurations. This platform really
+   means "Build all of the other ones" which is in effect is building for AnyCPU -->
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Any CPU">
+    <ProjectConfiguration Include="Debug|AnyCPU">
       <Configuration>Debug</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Any CPU">
+    <ProjectConfiguration Include="Release|AnyCPU">
       <Configuration>Release</Configuration>
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
