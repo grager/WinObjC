@@ -5,10 +5,6 @@
       <GitThisAssembly>true</GitThisAssembly>
       <InferLegacyPackageReferences>false</InferLegacyPackageReferences>
   </PropertyGroup>
-
-  <PropertyGroup>
-    <_PackageProjectPlatform>$(Platform)</_PackageProjectPlatform>
-  </PropertyGroup>
   
   <Target Name="GetPackageVersion" Returns="$(PackageVersion)">
     <!-- TODO: read in BasePackageVersion from somewhere useful -->
@@ -63,22 +59,22 @@
     <Warning Text="Before Build of $(MSBuildProjectFile) for the following Platform: $(Platform)" />
   </Target>
 
-    <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" Condition="'$(SkipGetPackageContentsForOtherPlatforms)' != 'true' AND '$(Platform)' == 'AnyCPU'">
-         <ItemGroup>
-            <!-- Inlcude *all* of /include/  and /include_next/ folder.  -->       
+    <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" Condition="'$(SkipGetPackageContentsForOtherPlatforms)' != 'true'">
+        <ItemGroup>
+            <!-- Inlcude *all* of /include/  and /include_next/ folder.  -->
             <_IncludeFiles Include="$(MSBuildThisFileDirectory)..\include\**\*.*"/>
-             <_IncludeFiles Include="$(MSBuildThisFileDirectory)..\include_next\**\*.*"/>
-            
+            <_IncludeFiles Include="$(MSBuildThisFileDirectory)..\include_next\**\*.*"/>
+
             <!-- Inlcude *all* of /msvc/ folder. Almost certainly overkill at this stage. Things like the .sln     -->
             <!-- for ClangCompile shouldn't be shipped in the package really but ok for bootstrapping the process. -->
             <!-- Pare this down in a future version!!! -->
             <_MSVCFiles Include="$(MSBuildThisFileDirectory)..\msvc\**\*.*"/>
-             
-             <!-- Include /deps/ folder. -->
-             <_DepsFiles Include="$(MSBuildThisFileDirectory)..\deps\**\*.*"/>
 
-             <!-- Include /bin/ folder. -->
-             <_BinFiles Include="$(MSBuildThisFileDirectory)..\bin\**\*.*"/>
+            <!-- Include /deps/ folder. -->
+            <_DepsFiles Include="$(MSBuildThisFileDirectory)..\deps\**\*.*"/>
+
+            <!-- Include /bin/ folder. -->
+            <_BinFiles Include="$(MSBuildThisFileDirectory)..\bin\**\*.*"/>
 
             <PackageFile Include="@(_MSVCFiles)">
                 <PackagePath>build\msvc\%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
@@ -93,7 +89,7 @@
                 <PackagePath>build\bin\%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
             </PackageFile>
         </ItemGroup>
-             
+
         <!-- Inlcude custom .props and .targets files. These are automatically added to a consuming project. -->
         <!-- This helps bootstrap the package and abstracts out starboard and other concepts that may change -->
         <!-- in future versions of the package. -->
@@ -105,7 +101,8 @@
                 <PackagePath>build\WinObjC.Build.targets</PackagePath>
             </PackageFile>
         </ItemGroup>
-
+    </Target>
+    <Target Name="AddOtherConfigsBuiltOutput" BeforeTargets="GetPackageContents" Condition="'$(SkipGetPackageContentsForOtherPlatforms)' != 'true' AND '$(Platform)' == 'AnyCPU'">
 
     <ItemGroup>
       <_PackTargetPlat Include="%(ProjectConfiguration.Platform)"
@@ -119,8 +116,9 @@
     <Message Text="Calling Build another time on $(MSBuildProjectFile) (unique name: @(_ProjectUniqueName) ) for the following Platforms: @(_PackTargetPlat)" Importance="High"/>
 
     <MSBuild Projects="$(SolutionPath)"
-         Targets=" @(_ProjectUniqueName)"
-         Properties="SkipGetPackageContentsForOtherPlatforms=true;Configuration=$(Configuration);Platform=%(_PackTargetPlat.Identity);ShouldUnsetParentConfigurationAndPlatform=false"
+         Targets="@(_ProjectUniqueName)"
+         Properties="SkipGetPackageContentsForOtherPlatforms=true;Configuration=$(Configuration);Platform=%(_PackTargetPlat.Identity)"
+         RemoveProperties="CurrentSolutionConfigurationContents"
         >
       <Output TaskParameter="TargetOutputs" ItemName="_OtherConfigPackageContent" />
     </MSBuild>
