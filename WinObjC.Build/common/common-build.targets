@@ -10,21 +10,16 @@
 
 <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
 
-<Target Name="GetPackageContentsForOtherPlatforms" BeforeTargets="GetPackageContents" Condition="'$(SkipGetPackageContentsForOtherPlatforms)' != 'true'">
+<Target Name="GetPackageContentsForOtherPlatforms" BeforeTargets="GetPackageContents" Condition="'$(SkipGetPackageContentsForOtherPlatforms)' != 'true'  AND 'false' == 'true'">
     <ItemGroup>
       <_PackTargetPlat Include="%(ProjectConfiguration.Platform)"
               Condition="'%(ProjectConfiguration.Configuration)' == '$(Configuration)' AND '%(ProjectConfiguration.Platform)' != '$(Platform)'" />
     </ItemGroup>
 
-    <ItemGroup>
-      <_AllTargetPlat Include="%(ProjectConfiguration.Platform)"
-              Condition="'%(ProjectConfiguration.Configuration)' == '$(Configuration)'" />
-    </ItemGroup>
-
-    <Message Text="Calling Build another time on $(MSBuildProjectFile) for the following Platforms: @(_AllTargetPlat)" Importance="High"/>
+    <Message Text="Calling Build another time on $(MSBuildProjectFile) for the following Platforms: @(_PackTargetPlat)" Importance="High"/>
     <MSBuild Projects="$(MSBuildProjectFile)"
          Targets="Build"
-         Properties="SkipGetPackageContentsForOtherPlatforms=true;Configuration=$(Configuration);Platform=%(_AllTargetPlat.Identity);ShouldUnsetParentConfigurationAndPlatform=false;CurrentSolutionConfigurationContents=;"
+         Properties="SkipGetPackageContentsForOtherPlatforms=true;Configuration=$(Configuration);Platform=%(_PackTargetPlat.Identity);ShouldUnsetParentConfigurationAndPlatform=false;"
         >
       <Output TaskParameter="TargetOutputs" ItemName="_OtherConfigPackageContent" />
     </MSBuild>
@@ -32,7 +27,7 @@
     <Message Text="Calling GetPackageContents another time on $(MSBuildProjectFile) for the following Platforms: @(_PackTargetPlat)" Importance="High"/>
     <MSBuild Projects="$(MSBuildProjectFile)"
          Targets="GetPackageContents"
-         Properties="SkipGetPackageContentsForOtherPlatforms=true;Configuration=$(Configuration);Platform=%(_PackTargetPlat.Identity);ShouldUnsetParentConfigurationAndPlatform=false;CurrentSolutionConfigurationContents=;"
+         Properties="SkipGetPackageContentsForOtherPlatforms=true;Configuration=$(Configuration);Platform=%(_PackTargetPlat.Identity);ShouldUnsetParentConfigurationAndPlatform=false;"
         >
       <Output TaskParameter="TargetOutputs" ItemName="_OtherConfigPackageContent" />
     </MSBuild>
@@ -42,5 +37,10 @@
     </ItemGroup>
 
 </Target>
+
+  <Target Name="DebugPlat" BeforeTargets="Build">
+    <Warning Text="Befgore Build of $(MSBuildProjectFile) for the following Platform: $(Platform)
+        $(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\SolutionFile\ImportAfter\" />
+  </Target>
 
 </Project>

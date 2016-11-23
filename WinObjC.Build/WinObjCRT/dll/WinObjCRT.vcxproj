@@ -67,42 +67,63 @@
         <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\$(Configuration)\%(Filename)%(Extension)</PackagePath>
       </PackageFile>
     </ItemGroup>
+  </Target>
 
 
-    <ItemGroup>
-      <_AllTargetConfig Include="%(ProjectConfiguration.Configuration)"
-              Condition="'%(ProjectConfiguration.Platform)' == '$(Platform)'" />
-    </ItemGroup>
+  <UsingTask TaskName="GetProjectUniqueName"
+           TaskFactory="CodeTaskFactory"
+           AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" >
+  <ParameterGroup>
+    <ProjectGuid ParameterType="System.String" Required="true"/>
+    <SolutionPath ParameterType="System.String" Required="true"/>
+    <ProjectUniqueName ParameterType="System.String" Output="true"/>
+  </ParameterGroup>
+  <Task>
+    <Reference Include="System"/>
+    <Reference Include="System.Reflection"/>
+    <Reference Include="Microsoft.Build"/>
+    <Using Namespace="Microsoft.Build.Construction"/>
+    <Using Namespace="System.Reflection"/>
+    <Using Namespace="System"/>
+    <Code Type="Fragment" Language="cs">
+      <![CDATA[
+        var solution = SolutionFile.Parse(SolutionPath);
+        var project = solution.ProjectsByGuid[System.Guid.Parse(ProjectGuid).ToString("B")];
+        
+        try {
+          ProjectUniqueName = (String)(project.GetType().GetMethod("GetUniqueProjectName", BindingFlags.NonPublic).Invoke(project, null));
+        } catch { }
+      ]]>
+    </Code>
+  </Task>
+</UsingTask>
 
-    <Message Text="Calling Build another time on $(MSBuildProjectFile) for the following Platforms: @(_AllTargetConfig)" Importance="High"/>
-    <MSBuild Projects="$(MSBuildProjectFile)"
-         Targets="Build"
-         Properties="SkipRerunAddBuiltOutputForOtherConfig=true;Platform=$(Platform);Configuration=%(_AllTargetConfig.Identity);ShouldUnsetParentConfigurationAndPlatform=false;CurrentSolutionConfigurationContents=;"
-        >
-      <Output TaskParameter="TargetOutputs" ItemName="_OtherConfigPackageContent" />
-    </MSBuild>
+
+  <Target Name="BuidOtherConfig" Condition="'$(SkipRerunAddBuiltOutputForOtherConfig)' != 'true'">
+
+
 
     <ItemGroup>
       <_PackTargetConfig Include="%(ProjectConfiguration.Configuration)"
               Condition="'%(ProjectConfiguration.Platform)' == '$(Platform)' AND '%(ProjectConfiguration.Configuration)' != '$(Configuration)'" />
     </ItemGroup>
 
-    <Message Text="Gathering $(MSBuildThisFile) package outputs for the following Configurations: @(_PackTargetConfig)" Importance="High" Condition="'$(SkipRerunAddBuiltOutputForOtherConfig)' != 'true'"/>
-    <MSBuild Projects="$(MSBuildProjectFile)"
-         Targets="GetPackageContents"
-         Properties="SkipRerunAddBuiltOutputForOtherConfig=true;Platform=$(Platform);Configuration=%(_PackTargetConfig.Identity);ShouldUnsetParentConfigurationAndPlatform=false;"
-         Condition="'$(SkipRerunAddBuiltOutputForOtherConfig)' != 'true'">
+    <Message Text="Calling Build another time on $(MSBuildProjectFile) for the following Configs: @(_PackTargetConfig)" Importance="High"/>
+    <GetProjectUniqueName SolutionPath="$(SolutionPath)" ProjectGuid="$(ProjectGuid)">
+      <Output ItemName="_ProjectUniqueName" TaskParameter="ProjectUniqueName"/> 
+    </GetProjectUniqueName>
+
+    <MSBuild Projects="$(SolutionPath)"
+         Targets="$(_ProjectUniqueName)"
+         Properties="SkipRerunAddBuiltOutputForOtherConfig=true;Platform=$(Platform);Configuration=%(_PackTargetConfig.Identity);ShouldUnsetParentConfigurationAndPlatform=false"
+        >
       <Output TaskParameter="TargetOutputs" ItemName="_OtherConfigPackageContent" />
     </MSBuild>
 
-    <Message Text="Other Config Package Contents: @(_OtherConfigPackageContent)"/>
-
-    <ItemGroup Condition="'$(SkipRerunAddBuiltOutputForOtherConfig)' != 'true'">
+    <ItemGroup>
       <PackageFile Include="@(_OtherConfigPackageContent)" />
     </ItemGroup>
 
-    <Message Text="Current Package Contents: @(PackageFile)"/>
-    <Message Text="Current Package Paths: %(PackageFile.PackagePath)"/>
 
   </Target>
 
