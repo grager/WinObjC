@@ -4,7 +4,7 @@
   <PropertyGroup>
     <GetPackageContentsDependsOn>
         $(GetPackageContentsDependsOn);
-        Build;
+        AfterBuild;
     </GetPackageContentsDependsOn>
   </PropertyGroup>
 
@@ -39,7 +39,7 @@
 </Target>
 
   <Target Name="DebugPlat" BeforeTargets="Build">
-    <Warning Text="Befgore Build of $(MSBuildProjectFile) for the following Platform: $(Platform)
+    <Warning Text="Before Build of $(MSBuildProjectFile) for the following Platform: $(Platform)
         $(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\SolutionFile\ImportAfter\" />
   </Target>
 
