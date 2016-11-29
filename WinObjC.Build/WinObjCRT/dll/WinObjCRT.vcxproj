@@ -25,7 +25,7 @@
     <None Include="WinObjCRT.def" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\lib\WinObjCRTLib.vcxproj">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\lib\WinObjCRTLib.vcxproj">
       <Project>{faebdba2-dff7-4944-9b13-bcc4da340804}</Project>
     </ProjectReference>
   </ItemGroup>
@@ -57,8 +57,7 @@
   </ItemGroup>
 
   <Target Name="AddBuiltOutput" 
-          BeforeTargets="GetPackageContents"
-          DependsOnTargets="Build">
+          BeforeTargets="GetPackageContents">
     <ItemGroup>      
     <_ImportLibraryFileNames  Include="@(Link -> '%(ImportLibrary)')"></_ImportLibraryFileNames>
       <PackageFile Include="@(BuiltProjectOutputGroupOutput -> '%(FinalOutputPath)')">
@@ -81,7 +80,7 @@
 
       <MSBuild Projects="$(MSBuildProjectFile)"
          Targets="GetPackageContents"
-         Properties="SkipGetPackageContentsForOtherConfigs=true;BuildingInsideVisualStudio=false;BuildProjectReferences=true;IsPackable=false;Configuration=$(Configuration);Platform=$(Platform);CurrentSolutionConfigurationContents=%(_SolutionConfigurationContents.Identity)">
+         Properties="SkipGetPackageContentsForOtherConfigs=true;BuildingInsideVisualStudio=false;BuildProjectReferences=true;IsPackable=false;Configuration=$(Configuration);Platform=$(Platform);CurrentSolutionConfigurationContents=%(_SolutionConfigurationContents.Identity);GetPackageContentsDependsOn=Build;$(GetPackageContentsDependsOn);">
         <Output TaskParameter="TargetOutputs" ItemName="_PackageContentsForPlat" />
       </MSBuild>
     </Target>

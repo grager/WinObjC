@@ -24,7 +24,6 @@
 
   <PropertyGroup>
     <_CoreCompileOverrideDependsOn Condition="'$(SkipGetPackageContentsForOtherPlatforms)' != 'true'">Pack</_CoreCompileOverrideDependsOn>
-    <GetPackageContentsDependsOn Condition="'$(SkipGetPackageContentsForOtherPlatforms)' == 'true'">$(GetPackageContentsDependsOn);Build</GetPackageContentsDependsOn>
   </PropertyGroup>
 
   <Target Name="CoreCompile" DependsOnTargets="$(_CoreCompileOverrideDependsOn)" />
@@ -84,7 +83,7 @@
 
       <MSBuild Projects="$(MSBuildProjectFile)"
          Targets="GetPackageContents"
-         Properties="SkipGetPackageContentsForOtherPlatforms=true;BuildingInsideVisualStudio=false;BuildProjectReferences=true;IsPackable=false;Configuration=$(Configuration);Platform=$(Platform);CurrentSolutionConfigurationContents=%(_SolutionConfigurationContents.Identity)">
+         Properties="SkipGetPackageContentsForOtherPlatforms=true;BuildingInsideVisualStudio=false;BuildProjectReferences=true;IsPackable=false;Configuration=$(Configuration);Platform=$(Platform);CurrentSolutionConfigurationContents=%(_SolutionConfigurationContents.Identity);GetPackageContentsDependsOn=Build;$(GetPackageContentsDependsOn)">
         <Output TaskParameter="TargetOutputs" ItemName="_PackageContentsForPlat" />
       </MSBuild>
     </Target>

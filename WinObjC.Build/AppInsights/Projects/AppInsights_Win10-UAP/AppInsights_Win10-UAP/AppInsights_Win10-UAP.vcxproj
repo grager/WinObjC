@@ -246,7 +246,6 @@
     <ClInclude Include="..\..\..\src\core\contracts\SessionState.h" />
     <ClInclude Include="..\..\..\src\core\contracts\SessionStateData.h" />
     <ClInclude Include="..\..\..\src\core\contracts\SeverityLevel.h" />
-    <ClInclude Include="..\..\..\src\core\contracts\shared\Nullable.h" />
     <ClInclude Include="..\..\..\src\core\contracts\StackFrame.h" />
     <ClInclude Include="..\..\..\src\core\contracts\User.h" />
     <ClInclude Include="..\..\..\src\core\TelemetryClient.h" />
@@ -314,7 +313,7 @@
   <ItemGroup>
     <None Include="Project.json" />
   </ItemGroup>
-  <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" DependsOnTargets="AllProjectOutputGroups">
+  <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" DependsOnTargets="$(GetPackageContentsDependsOn)">
     <ItemGroup>
       <PackageFile Include="@(BuiltProjectOutputGroupKeyOutput -> '%(FinalOutputPath)')">
         <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\%(Filename)%(Extension)</PackagePath>

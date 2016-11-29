@@ -247,7 +247,7 @@
   <ItemGroup>
     <None Include="Project.json" />
   </ItemGroup>
-  <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" DependsOnTargets="AllProjectOutputGroups">
+  <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" DependsOnTargets="$(GetPackageContentsDependsOn)">
     <ItemGroup>
       <PackageFile Include="@(BuiltProjectOutputGroupKeyOutput -> '%(FinalOutputPath)')">
         <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\%(Filename)%(Extension)</PackagePath>

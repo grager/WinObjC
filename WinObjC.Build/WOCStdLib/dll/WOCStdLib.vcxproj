@@ -43,6 +43,7 @@
     <RootNamespace>WOCStdLib</RootNamespace>
     <AppContainerApplication>true</AppContainerApplication>
     <OutputName>WOCStdLib</OutputName>
+    <ProjectName>WOCStdLib</ProjectName>
     <IncludeOutputsInPackage>false</IncludeOutputsInPackage>
     <IncludeContentInPackage>false</IncludeContentInPackage>
   </PropertyGroup>
@@ -63,7 +64,7 @@
   <ItemGroup>
     <None Include="Project.json" />
   </ItemGroup>
-  <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" DependsOnTargets="$(ComputeLinkInputsTargets)">
+  <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" DependsOnTargets="Build">
     <Warning Text="Adding Packaging Output for $(MSBuildProjectFile) with Config $(Configuration)|$(Platform) "/>
     <ItemGroup>
       <_ImportLibraryFileNames  Include="@(Link -> '%(ImportLibrary)')"></_ImportLibraryFileNames>
