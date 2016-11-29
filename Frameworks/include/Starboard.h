@@ -16,7 +16,7 @@
 //******************************************************************************
 #pragma once
 
-#include "LoggingNative.h"
+#include "Logging\LoggingNative.h"
 #include "IwMalloc.h"
 #include <StarboardExport.h>
 
@@ -91,7 +91,7 @@ public:
 typedef void* id;
 #endif
 
-#include "ErrorHandling.h"
+#include "Logging\ErrorHandling.h"
 
 // This has to be after the error handling header since that brings in FAIL_FAST_IF_MSG. The error-handling code uses IWLazyClassLookup
 // so this can't be before ErrorHandling's include.

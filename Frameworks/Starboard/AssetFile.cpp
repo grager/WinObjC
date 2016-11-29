@@ -26,7 +26,7 @@
 #include "Platform/EbrPlatform.h"
 #include "AssetFile.h"
 #include "PathMapper.h"
-#include "LoggingNative.h"
+#include "Logging\LoggingNative.h"
 
 static const wchar_t* TAG = L"AssetFile";
 

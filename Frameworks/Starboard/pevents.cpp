@@ -39,7 +39,7 @@ THE SOFTWARE.
 #ifdef WFMO
 #include <algorithm>
 #include <deque>
-#include "LoggingNative.h"
+#include "Logging\LoggingNative.h"
 
 static const wchar_t* TAG = L"pevents";
 

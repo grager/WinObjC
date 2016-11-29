@@ -18,9 +18,9 @@
 #include <bcrypt.h>
 #include <CommonCrypto\CommonDigest.h>
 #include <CommonCrypto\CommonCryptor.h>
-#include <ErrorHandling.h>
+#include <Logging\ErrorHandling.h>
 #include <assert.h>
-#include <StubReturn.h>
+#include <Logging\StubReturn.h>
 
 struct CC_Digest_State {
     CC_Digest_State(const unsigned int digestLength, const LPCWSTR algorithm) :

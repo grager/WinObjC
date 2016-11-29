@@ -16,9 +16,8 @@
 
 #pragma once
 
-#include "Starboard.h"
-
 #ifdef __OBJC__
+#include "Starboard.h"
 #import <Foundation/NSString.h>
 #import <NSStringInternal.h>
 #include <COMIncludes.h>
@@ -242,7 +241,7 @@ struct StringTraits<HSTRING> {
 template <unsigned int Count>
 struct StringTraits<const wchar_t[Count]> {
     // Returns a const pointer to the start of the buffer
-    static const wchar_t* Data(const wchar_t(&string)[Count]) {
+    static const wchar_t* Data(const wchar_t (&string)[Count]) {
         static_assert(Count > 0, "StringTraits<wchar_t[]> does not support empty arrays.");
         return &string[0];
     }
@@ -252,7 +251,7 @@ struct StringTraits<const wchar_t[Count]> {
 template <unsigned int Count>
 struct StringTraits<wchar_t[Count]> {
     // Returns a const pointer to the start of the buffer
-    static const wchar_t* Data(const wchar_t(&string)[Count]) {
+    static const wchar_t* Data(const wchar_t (&string)[Count]) {
         static_assert(Count > 0, "StringTraits<wchar_t[]> does not support empty arrays.");
         return &string[0];
     }
@@ -300,7 +299,7 @@ struct StringTraits<const char*> {
 template <unsigned int Count>
 struct StringTraits<char[Count]> {
     // Returns a const pointer to the start of the buffer
-    static const char* Data(const char(&string)[Count]) {
+    static const char* Data(const char (&string)[Count]) {
         static_assert(Count > 0, "StringTraits<char[]> does not support empty arrays.");
         return &string[0];
     }

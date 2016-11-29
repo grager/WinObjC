@@ -22,8 +22,8 @@
 #include <windows.security.cryptography.h>
 #include <windows.storage.streams.h>
 #include <COMIncludes_End.h>
-#include <ErrorHandling.h>
-#include <StubReturn.h>
+#include <Logging\ErrorHandling.h>
+#include <Logging\StubReturn.h>
 #include <RawBuffer.h>
 #include <memory>
 #include <vector>

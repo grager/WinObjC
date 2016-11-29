@@ -44,10 +44,9 @@
 
   <PropertyGroup Label="SBAdditionalLibraries">
     <StarboardIncludeDefaultLibs Condition="'$(StarboardIncludeDefaultLibs)' == ''">true</StarboardIncludeDefaultLibs>
-    <StarboardDefaultLibs Condition="'$(StarboardIncludeDefaultLibs)' == 'true'">libdispatch.lib;</StarboardDefaultLibs>
+    <StarboardDefaultLibs Condition="'$(StarboardIncludeDefaultLibs)' == 'true'">libdispatch.lib;Logging.lib;WOCStdLib.lib;IwNew.lib;</StarboardDefaultLibs>
     <StarboardLinkObjCRuntime Condition="'$(StarboardLinkObjCRuntime)' == ''">true</StarboardLinkObjCRuntime>
     <StarboardObjCRuntimeLib>libobjc2.lib</StarboardObjCRuntimeLib>
-    <IslandwoodDRT Condition="'$(IslandwoodDRT)' == ''">true</IslandwoodDRT>
     <StarboardLinkWholeArchive Condition="'$(StarboardLinkWholeArchive)' == ''">false</StarboardLinkWholeArchive>
   </PropertyGroup>
   

@@ -15,7 +15,7 @@
 //******************************************************************************
 
 #include "EbrStorageFile.h"
-#include "ErrorHandling.h"
+#include "Logging\ErrorHandling.h"
 
 #include "StringHelpers.h"
 #include "WRLHelpers.h"

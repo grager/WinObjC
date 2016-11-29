@@ -15,7 +15,7 @@
 //******************************************************************************
 
 #include <windows.h>
-#include "ErrorHandling.h"
+#include "Logging\ErrorHandling.h"
 #include "RawBuffer.h"
 #include <wrl/client.h>
 #include <wrl/implements.h>

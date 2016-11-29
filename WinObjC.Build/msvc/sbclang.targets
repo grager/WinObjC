@@ -356,7 +356,7 @@
 
     <PropertyGroup>
       <!-- Library directories for in-tree builds and builds linking against the source tree. -->
-      <StarboardLibDirs>$(MSBuildThisFileDirectory)..\build\$(Platform)\$(StarboardCRTConfig)\$(TargetOsAndVersion)</StarboardLibDirs>
+      <StarboardLibDirs>$(MSBuildThisFileDirectory)..\lib\$(TargetOsAndVersion)\$(PlatformTarget)</StarboardLibDirs>
       <!-- Directory for built libraries whose configuration must match the client's -->
       <StarboardConfigSpecificLibsDir>$(StarboardLibDirs)\$(StarboardCRTConfig)</StarboardConfigSpecificLibsDir>
       <!-- Prebuilts for all configurations -->
@@ -377,7 +377,7 @@
       
     <!-- UIKit.dll inherits type information from UIKit.Xaml.dll, but the build system doesn't know that, so we have to manually reference it -->
     <ItemGroup>
-      <Reference Include="UIKit" Condition="'$(AppContainerApplication)' == 'true' And ('$(IslandwoodDRT)' == 'true' Or $(Link.Contains('UIKit.lib')))">
+      <Reference Include="UIKit" Condition="'$(AppContainerApplication)' == 'true' And ($(Link.Contains('UIKit.lib')))">
         <HintPath>$(StarboardLibDirs)\UIKit.winmd</HintPath>
         <CopyLocal>false</CopyLocal>
         <Implementation>UIKit.Xaml.dll</Implementation>
@@ -393,7 +393,7 @@
     Name="AddRuntimeComponentFile"
     DependsOnTargets="ComputeStarboardCRT">
 
-    <ItemGroup Condition="'$(AppContainerApplication)' == 'true' And '$(IslandwoodDRT)' == 'true'">
+    <ItemGroup Condition="'$(AppContainerApplication)' == 'true'">
       <ClCompile Include="$(MSBuildThisFileDirectory)ConsumeRuntimeComponent.cpp">
         <PrecompiledHeader>NotUsing</PrecompiledHeader>
         <RuntimeLibrary>$(StarboardCRT)</RuntimeLibrary>
@@ -710,7 +710,7 @@
   <Target Name="ComputeRuntimeInputs" DependsOnTargets="ComputeClangOptions;ComputeStarboardRequiresObjectiveCRuntime">
     <ItemGroup>
       <Link Condition="'$(StarboardLinkObjCRuntime)' == 'true' and '$(StarboardRequiresObjectiveCRuntime)' == 'true'" Include="$(StarboardObjCRuntimeLib)"/>
-      <Link Condition="'$(StarboardDefaultLibs)' != '' And '$(IslandwoodDRT)' == 'true'" Include="$(StarboardDefaultLibs)"/>
+      <Link Condition="'$(StarboardDefaultLibs)' != ''" Include="$(StarboardDefaultLibs)"/>
     </ItemGroup>
   </Target>
 

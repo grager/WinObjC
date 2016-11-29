@@ -77,5 +77,6 @@
         <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\%(Filename)%(Extension)</PackagePath>
       </PackageFile>
     </ItemGroup>
+    <Warning Text="$(MSBuildProjectFile) AddBuiltOutput: %(Link.ImportLibrary)"/>
   </Target>
 </Project>

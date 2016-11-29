@@ -27,7 +27,7 @@
 #include <Platform/EbrPlatform.h>
 #include <Starboard.h>
 #include "PathMapper.h"
-#include "LoggingNative.h"
+#include "Logging\LoggingNative.h"
 #include "EbrFile.h"
 #include "EbrIOFile.h"
 #include "EbrDevRandomFile.h"

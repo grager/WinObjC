@@ -110,4 +110,7 @@
       <Filter>Tests\AssetsLibraryTests</Filter>
     </Media>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Project.json" />
+  </ItemGroup>
 </Project>

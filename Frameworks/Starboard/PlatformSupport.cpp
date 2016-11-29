@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include <direct.h>
 #include <sys\stat.h>
+#include <sys\time.h>
 #include <map>
 #include <regex>
 
@@ -30,7 +31,7 @@
 #include <pthread.h>
 #include "pevents.h"
 #include "PathMapper.h"
-#include "LoggingNative.h"
+#include "Logging\LoggingNative.h"
 
 void EbrBlockIfBackground() {
 }
@@ -98,12 +99,14 @@ void EbrSleep(__int64 nanoseconds) {
     Sleep((DWORD)(nanoseconds / 1000000LL));
 }
 
+extern "C" int gettimeofday(struct timeval* tv, struct timezone* tz);
+
 int EbrGetTimeOfDay(struct EbrTimeval* curtime) {
     timeval tv;
     gettimeofday(&tv, nullptr);
 
-    curtime->tv_sec = ts->tv_sec;
-    curtime->tv_usec = ts->tv_usec;
+    curtime->tv_sec = tv.tv_sec;
+    curtime->tv_usec = tv.tv_usec;
 
     return 0;
 }

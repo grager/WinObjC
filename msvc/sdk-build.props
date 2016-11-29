@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup Condition="'$(ConfigurationType)'=='DynamicLibrary'">
-    <ProjectReference Condition="'$(LinkWithWinObjCRT)' != 'false'" Include="$(StarboardBasePath)\build\WinObjCRT\dll\WinObjCRT.vcxproj">
-      <Project>{585b4870-0d6b-43a6-8e7e-ad08f7f507b6}</Project>
-    </ProjectReference>
-    <ProjectReference Condition="'$(LinkWithLogging)' != 'false'" Include="$(StarboardBasePath)\build\Logging\dll\Logging.vcxproj">
-      <Project>{862d36c2-cc83-4d04-b9b8-bef07f479905}</Project>
-    </ProjectReference>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(ConfigurationType)'=='StaticLibrary'">
-    <ProjectReference Condition="'$(LinkWithIwNew)' != 'false'" Include="$(StarboardBasePath)\build\IwNew\lib\IwNewLib.vcxproj">
-      <Project>{b16c8766-1d05-46c0-b231-10c3aa43c19b}</Project>
-    </ProjectReference>
-  </ItemGroup>
 
   <PropertyGroup Label="Globals">
     <DefaultLanguage Condition="'$(DefaultLanguage)'==''">en-US</DefaultLanguage>
@@ -21,7 +7,6 @@
     <AppContainerApplication Condition="'$(AppContainerApplication)'==''">true</AppContainerApplication>
     <ApplicationType Condition="'$(ApplicationType)'==''">Windows Store</ApplicationType>
     <ApplicationTypeRevision Condition="'$(ApplicationTypeRevision)'==''">10.0</ApplicationTypeRevision>
-    <IslandwoodDRT Condition="'$(IslandwoodDRT)'==''">false</IslandwoodDRT>
     <StarboardLinkWholeArchive Condition="'$(StarboardLinkWholeArchive)'==''">false</StarboardLinkWholeArchive>
     <WindowsTargetPlatformVersion Condition="'$(WindowsTargetPlatformVersion)'==''">10.0.10586.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformMinVersion Condition="'$(WindowsTargetPlatformMinVersion)'==''">10.0.10586.0</WindowsTargetPlatformMinVersion>
