@@ -55,10 +55,11 @@
   <ImportGroup Label="ExtensionSettings">
     <Import Project="$(StarboardBasePath)\msvc\sdk-build.props" />
   </ImportGroup>
+
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>$(StarboardSdkRoot)\include\;$(StarboardBasePath)\Frameworks\include;$(StarboardBasePath)\include;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(StarboardBasePath)\Frameworks\include;$(StarboardBasePath)\include;$(StarboardBasePath)\include\xplat;$(StarboardBasePath)\include;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SB_IMPEXP=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ClangCompile>
@@ -69,7 +70,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>$(StarboardSdkRoot)\include\;$(StarboardBasePath)\Frameworks\include;$(StarboardBasePath)\include;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(StarboardBasePath)\Frameworks\include;$(StarboardBasePath)\include;$(StarboardBasePath)\include\xplat;$(StarboardBasePath)\include;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SB_IMPEXP=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ClangCompile>
@@ -81,7 +82,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm'">
     <ClCompile>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>$(StarboardSdkRoot)\include\;$(StarboardBasePath)\Frameworks\include;$(StarboardBasePath)\include;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(StarboardBasePath)\Frameworks\include;$(StarboardBasePath)\include;$(StarboardBasePath)\include\xplat;$(StarboardBasePath)\include;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SB_IMPEXP=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ClangCompile>
@@ -92,7 +93,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm'">
     <ClCompile>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>$(StarboardSdkRoot)\include\;$(StarboardBasePath)\Frameworks\include;$(StarboardBasePath)\include;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(StarboardBasePath)\Frameworks\include;$(StarboardBasePath)\include;$(StarboardBasePath)\include\xplat;$(StarboardBasePath)\include;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SB_IMPEXP=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ClangCompile>

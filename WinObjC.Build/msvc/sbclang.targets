@@ -812,4 +812,17 @@
     <!-- Delete Dependency Walker files -->
     <Delete Files="$(DepWalkerPathFile);$(DepWalkerOutputFile)" />
   </Target>
+
+
+  <PropertyGroup>
+    <WinObjCUseCRT Condition="'$(WinObjCUseCRT)' == ''">true</WinObjCUseCRT>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <Link Condition="'$(WinObjCUseCRT)' == 'true'">
+      <!-- Ensure we pick up operator new from our project rather than the C runtime -->
+      <ForceSymbolReferences>??2@YAPAXI@Z</ForceSymbolReferences>
+    </Link>
+  </ItemDefinitionGroup>
+
 </Project>

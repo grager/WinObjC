@@ -16,13 +16,17 @@
 //******************************************************************************
 #pragma once
 
-#include "Logging\LoggingNative.h"
+#include "LoggingNative.h"
 #include "IwMalloc.h"
 #include <StarboardExport.h>
 
 // Interface should not be defined for Objective-C code
+#ifdef __OBJC__
+
 #ifdef interface
 #undef interface
+#endif
+
 #endif
 
 #define fatal_printf(...)
@@ -91,7 +95,7 @@ public:
 typedef void* id;
 #endif
 
-#include "Logging\ErrorHandling.h"
+#include "ErrorHandling.h"
 
 // This has to be after the error handling header since that brings in FAIL_FAST_IF_MSG. The error-handling code uses IWLazyClassLookup
 // so this can't be before ErrorHandling's include.

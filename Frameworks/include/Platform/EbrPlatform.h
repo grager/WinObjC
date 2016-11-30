@@ -16,7 +16,6 @@
 
 #pragma once
 
-#include <pthread.h>
 #include <sys/types.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -107,4 +106,3 @@ typedef struct {
 
 SB_EXPORT int EbrEventTimedMultipleWait(EbrEvent* events, int numEvents, double timeout, SocketWait* sockets);
 SB_EXPORT void EbrEventDestroy(EbrEvent event);
-

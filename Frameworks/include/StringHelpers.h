@@ -16,8 +16,9 @@
 
 #pragma once
 
-#ifdef __OBJC__
 #include "Starboard.h"
+
+#ifdef __OBJC__
 #import <Foundation/NSString.h>
 #import <NSStringInternal.h>
 #include <COMIncludes.h>
