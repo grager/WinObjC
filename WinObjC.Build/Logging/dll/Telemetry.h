@@ -15,7 +15,7 @@
 //******************************************************************************
 #pragma once
 
-#include "Logging/LoggingNative.h"
+#include "LoggingNative.h"
 
 //
 // Send a telemetry event with the given name. E.g.:

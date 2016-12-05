@@ -17,7 +17,7 @@
 // This file is included under the DLL because the compiler cannot statically link to a library that references the 
 // AppInsights UAP library.
 
-#include "Logging/LoggingInternal.h"
+#include "LoggingInternal.h"
 #include "Telemetry.h"
 
 using namespace ApplicationInsights::CX;

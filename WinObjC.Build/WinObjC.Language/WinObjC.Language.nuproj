@@ -29,12 +29,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Configuration">
-    <PackageId>WinObjC.Build</PackageId>
-    <Title>WinObjC.Build</Title>
+    <PackageId>WinObjC.Language</PackageId>
+    <Title>WinObjC.Language</Title>
     <Authors>Microsoft</Authors>
     <Owners>Microsoft</Owners>
-    <Summary>WinObjC.Build</Summary>
-    <Description>WinObjC.Build</Description>
+    <Summary>WinObjC.Language</Summary>
+    <Description>WinObjC.Language</Description>
     <PackageReleaseNotes>
     </PackageReleaseNotes>
     <PackageProjectUrl>
@@ -42,7 +42,7 @@
     <PackageLicenseUrl>
     </PackageLicenseUrl>
     <Copyright>Copyright © Microsoft</Copyright>
-    <PackageTags>WinObjC.Build</PackageTags>
+    <PackageTags>WinObjC.Language</PackageTags>
     <IsDevelopmentDependency>true</IsDevelopmentDependency>
     <IncludeContentInPackage>false</IncludeContentInPackage>
     <IncludeSymbolsInPackage>false</IncludeSymbolsInPackage>
@@ -56,9 +56,9 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="project.json" />
-    <None Include="WinObjC.Build.Packaging.targets" />
-    <None Include="WinObjC.Build.props" />
-    <None Include="WinObjC.Build.targets" />
+    <None Include="WinObjC.Language.Packaging.targets" />
+    <None Include="WinObjC.Language.props" />
+    <None Include="WinObjC.Language.targets" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Readme.txt">
@@ -79,5 +79,5 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <Import Project="$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.targets" Condition="Exists('$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.targets')" />
-  <Import Project="WinObjC.Build.Packaging.targets" />
+  <Import Project="WinObjC.Language.Packaging.targets" />
 </Project>

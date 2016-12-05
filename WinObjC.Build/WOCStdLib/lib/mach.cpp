@@ -16,7 +16,7 @@
 
 #include <Windows.h>
 #include <mach/mach.h>
-#include <Logging/StubReturn.h>
+#include <StubReturn.h>
 #include <mach/mach_defs.h>
 #include <mach/mach_time.h>
 

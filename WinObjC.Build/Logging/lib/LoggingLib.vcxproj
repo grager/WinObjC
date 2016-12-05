@@ -28,6 +28,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)LoggingTesting.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ErrorHandling.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\include\**\*" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D3500720-CF56-43AB-A9D6-9DC119A411B8}</ProjectGuid>
     <ProjectName>LoggingLib</ProjectName>
@@ -38,7 +41,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalOptions>"/DLOGGING_IMPEXP= " "/DWIL_IMPEXP= " %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)..\..\include\WOCStdLib\;$(MSBuildThisFileDirectory)..\..\include\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)..\..\include\WOCStdLib\;$(MSBuildThisFileDirectory)..\..\include\;$(MSBuildThisFileDirectory)..\include\;</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(MSBuildThisFileDirectory)..\..\common\common-build.targets" />

@@ -14,8 +14,8 @@
 //
 //******************************************************************************
 
-#include "Logging\LoggingNative.h"
-#include "Logging\LoggingInternal.h"
+#include "LoggingNative.h"
+#include "LoggingInternal.h"
 
 #include <mutex>
 #include <stdarg.h>
@@ -27,7 +27,7 @@
 #include <TraceLoggingProvider.h>
 
 // We export the WIL logging hook from this binary
-#include "Logging\ErrorHandling.h"
+#include "ErrorHandling.h"
 
 bool s_isRegistered = false;
 

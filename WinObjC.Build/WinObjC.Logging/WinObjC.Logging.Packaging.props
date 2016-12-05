@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+      <GitThisAssembly>true</GitThisAssembly>
+      <InferLegacyPackageReferences>false</InferLegacyPackageReferences>
+      <BuildingLoggingPackage>true</BuildingLoggingPackage>
+  </PropertyGroup>
+    
+  <PropertyGroup>
+      <PackageId>WinObjC.Logging</PackageId>
+      <Title>WinObjC.Logging</Title>
+      <Authors>Microsoft</Authors>
+      <Owners>Microsoft</Owners>
+      <Summary>WinObjC.Logging</Summary>
+      <Description>WinObjC.Logging</Description>
+      <PackageReleaseNotes>
+      </PackageReleaseNotes>
+      <PackageProjectUrl>
+      </PackageProjectUrl>
+      <PackageLicenseUrl>
+      </PackageLicenseUrl>
+      <Copyright>Copyright © Microsoft</Copyright>
+      <PackageTags>WinObjC.Logging</PackageTags>
+      <IsDevelopmentDependency>true</IsDevelopmentDependency>
+      <IncludeSymbolsInPackage>false</IncludeSymbolsInPackage>
+      <IncludeFrameworkReferencesInPackage>false</IncludeFrameworkReferencesInPackage>
+      <NoPackageAnalysis>true</NoPackageAnalysis>
+  </PropertyGroup>
+
+      <!-- TODO: read in BasePackageVersion from somewhere useful -->
+  <PropertyGroup>
+      <BasePackageVersion>0.0.1</BasePackageVersion>
+      <PackageVersion Condition="'$(GitBranch)' == 'master'">$(BasePackageVersion)</PackageVersion>
+      <PackageVersion Condition="'$(GitBranch)' == 'develop'">$(BasePackageVersion)-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss)).dev</PackageVersion>
+      <PackageVersion Condition="'$(PackageVersion)' == ''">$(BasePackageVersion)-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss)).pr</PackageVersion>
+  </PropertyGroup>
+
+</Project>

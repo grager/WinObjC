@@ -63,11 +63,11 @@
       <!-- This helps bootstrap the package and abstracts out starboard and other concepts that may change -->
       <!-- in future versions of the package. -->
       <ItemGroup>
-          <PackageFile Include="$(MSBuildThisFileDirectory)WinObjC.Build.props">
-              <PackagePath>build\WinObjC.Build.props</PackagePath>
+          <PackageFile Include="$(MSBuildThisFileDirectory)$(PackageId).props" Condition="Exists('$(MSBuildThisFileDirectory)$(PackageId).props')">
+              <PackagePath>build\$(PackageId).props</PackagePath>
           </PackageFile>
-          <PackageFile Include="$(MSBuildThisFileDirectory)WinObjC.Build.targets">
-              <PackagePath>build\WinObjC.Build.targets</PackagePath>
+          <PackageFile Include="$(MSBuildThisFileDirectory)$(PackageId).targets" Condition="Exists('$(MSBuildThisFileDirectory)$(PackageId).targets')">
+              <PackagePath>build\$(PackageId).targets</PackagePath>
           </PackageFile>
       </ItemGroup>
   </Target>

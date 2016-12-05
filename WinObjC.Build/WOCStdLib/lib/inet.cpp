@@ -16,7 +16,7 @@
 
 #include <Windows.h>
 #include <inaddr.h>
-#include <Logging/StubReturn.h>
+#include <StubReturn.h>
 
 extern "C" {
     

@@ -15,7 +15,7 @@
 //******************************************************************************
 
 #include "WOCStdLib/sys/utsname.h"
-#include <Logging\StubReturn.h>
+#include <StubReturn.h>
 
 /**
  @Status Stub

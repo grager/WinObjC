@@ -49,16 +49,10 @@
     <WOCStdLibBasePath>..\..\..</WOCStdLibBasePath>
     <OutputName>WOCStdLibLib</OutputName>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="Project.json" />
-  </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)..\..\include\WOCStdLib\;$(MSBuildThisFileDirectory)..\..\include\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)..\..\include\WOCStdLib\;$(MSBuildThisFileDirectory)..\..\include\;$(MSBuildThisFileDirectory)..\..\Logging\include\;</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
-
   <Import Project="$(MSBuildThisFileDirectory)..\..\common\common-build.targets" />
-
 </Project>

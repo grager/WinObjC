@@ -17,7 +17,7 @@
 
 #include <cstdarg>
 #include <string>
-#include <Logging/StubReturn.h>
+#include <StubReturn.h>
 
 
 /**

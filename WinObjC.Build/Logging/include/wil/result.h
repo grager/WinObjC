@@ -25,7 +25,7 @@
 
 #include <WinError.h>
 #include <strsafe.h>
-#include <IwMalloc.h> // IwMalloc / IwFree used for internal buffer management
+#include <stdlib.h> // malloc / free used for internal buffer management
 #include <intrin.h> // provides the _ReturnAddress() intrinsic
 #include "Common.h"
 #if defined(WIL_ENABLE_EXCEPTIONS) && !defined(WIL_SUPPRESS_NEW)
@@ -1763,7 +1763,7 @@ public:
     void reset() WI_NOEXCEPT {
         if (m_pCopy != nullptr) {
             if (0 == ::InterlockedDecrementRelease(m_pCopy)) {
-                ::IwFree(m_pCopy);
+                free(m_pCopy);
             }
             m_pCopy = nullptr;
             m_size = 0;
@@ -1776,7 +1776,7 @@ public:
             return true;
         }
 
-        long* pCopyRefCount = reinterpret_cast<long*>(::IwMalloc(sizeof(long) + cbData));
+        long* pCopyRefCount = reinterpret_cast<long*>(malloc(sizeof(long) + cbData));
         if (pCopyRefCount == nullptr) {
             return false;
         }
@@ -1932,8 +1932,7 @@ private:
         }
 
         template <typename param_t>
-        RefAndObject(param_t&& param1)
-            : m_refCount(1), m_object(wistd::forward<param_t>(param1)) {
+        RefAndObject(param_t&& param1) : m_refCount(1), m_object(wistd::forward<param_t>(param1)) {
         }
     };
 
@@ -2180,7 +2179,7 @@ public:
                 auto pCurrent = pNode;
                 pNode = pNode->pNext;
                 pCurrent->~Node();
-                ::IwFree(pCurrent);
+                free(pCurrent);
             }
             entry = nullptr;
         }
@@ -2196,7 +2195,7 @@ public:
             }
         }
         if (shouldAllocate) {
-            Node* pNew = reinterpret_cast<Node*>(::IwMalloc(sizeof(Node)));
+            Node* pNew = reinterpret_cast<Node*>(malloc(sizeof(Node)));
             if (pNew != nullptr) {
                 // placement new would be preferred, but components include this file that do not enable it
                 pNew->Construct(threadId);
@@ -5082,14 +5081,13 @@ void _rethrowNormalizedCaughtExceptionObjC(__R_FN_PARAMS_FULL, _In_opt_ PCWSTR m
 }
 
 // Misspelling is intentional
-WI_HEADER_INITITALIZATION_FUNCTION(InitializeObjCExceptions,
-                                   [] {
-                                       g_resultFromUncaughtExceptionObjC = _resultFromUncaughtExceptionObjC;
-                                       g_rethrowAsNSException = _rethrowAsNSException;
-                                       g_objcThrowFailureInfo = _objcThrowFailureInfo;
-                                       g_rethrowNormalizedCaughtExceptionObjC = _rethrowNormalizedCaughtExceptionObjC;
-                                       return 1;
-                                   });
+WI_HEADER_INITITALIZATION_FUNCTION(InitializeObjCExceptions, [] {
+    g_resultFromUncaughtExceptionObjC = _resultFromUncaughtExceptionObjC;
+    g_rethrowAsNSException = _rethrowAsNSException;
+    g_objcThrowFailureInfo = _objcThrowFailureInfo;
+    g_rethrowNormalizedCaughtExceptionObjC = _rethrowNormalizedCaughtExceptionObjC;
+    return 1;
+});
 
 #endif
 

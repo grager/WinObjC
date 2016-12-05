@@ -4,7 +4,7 @@
     "NuGet.Build.Packaging": "0.1.163-pr61"
   },
   "frameworks": {
-    "native,Version=v1.0": {
+    "uap10.0": {
       "imports": [
         "dotnet",
         "netstandard1.0",

@@ -3,10 +3,6 @@
 
 <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets"/>
 
-  <Target Name="DebugPlat" BeforeTargets="Build">
-    <Warning Text="Before Build of $(MSBuildProjectFile) for the following Platform: $(Platform)|$(Configuration)" />
-  </Target>
-
   <PropertyGroup>
       <GetPackageContentsDependsOn>$(GetPackageContentsDependsOn);$(ComputeLinkInputsTargets)</GetPackageContentsDependsOn>
   </PropertyGroup>

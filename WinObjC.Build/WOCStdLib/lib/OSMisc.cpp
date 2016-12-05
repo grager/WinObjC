@@ -21,8 +21,8 @@
 
 #include <algorithm>
 #include <WOCStdLib/mach/mach_defs.h>
-#include "Logging/LoggingNative.h"
-#include "Logging/ErrorHandling.h"
+#include "LoggingNative.h"
+#include "ErrorHandling.h"
 
 static const wchar_t* TAG = L"OSMisc";
 

@@ -14,7 +14,7 @@
 //
 //******************************************************************************
 
-#include "Logging\LoggingInternal.h"
+#include "LoggingInternal.h"
 
 TRACELOGGING_DEFINE_PROVIDER(s_traceLoggingProvider,
                              "WinObjCTraceLoggingProvider",

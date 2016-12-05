@@ -41,10 +41,20 @@
   <ImportGroup Label="ExtensionSettings">
     <Import Project="$(MSBuildThisFileDirectory)..\..\common\common-build.props" />
   </ImportGroup>
+
+
+  <!-- IMPORTANT: This is a hack to get both an "in the build project reference" and a nuget reference to
+       work together. When a depending project depends on this project via project reference, the project imports
+       the packaging props to impersonate its parent packaging project. In this way, a nuget dependency is created.
+       In the normal Package project reference where we actually want the contents to be packaged, it has the same package 
+       info as the parent project so it gets rolled together nicely. Hooray. :-(    -->
+  <Import Project="$(MSBuildThisFileDirectory)..\..\WinObjC.Logging\WinObjC.Logging.Packaging.props" />
+
+
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalOptions>"/DLOGGING_IMPEXP= " %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)..\..\AppInsights\Projects\AppInsights_Win10-UAP\ApplicationInsights\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)..\..\AppInsights\Projects\AppInsights_Win10-UAP\ApplicationInsights\;$(MSBuildThisFileDirectory)..\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <ModuleDefinitionFile>Logging.def</ModuleDefinitionFile>
@@ -57,9 +67,6 @@
     <ProjectReference Include="..\..\AppInsights\Projects\AppInsights_Win10-UAP\ApplicationInsights\ApplicationInsights.vcxproj">
       <Project>{96db2b84-5a04-42ce-ad6b-421b199fd193}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\WinObjCRT\dll\WinObjCRT.vcxproj">
-      <Project>{585b4870-0d6b-43a6-8e7e-ad08f7f507b6}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\lib\LoggingLib.vcxproj">
       <Project>{D3500720-CF56-43AB-A9D6-9DC119A411B8}</Project>
     </ProjectReference>
@@ -67,16 +74,17 @@
   <ItemGroup>
     <None Include="Project.json" />
   </ItemGroup>
-  <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" DependsOnTargets="$(GetPackageContentsDependsOn)">
-    <ItemGroup>
-      <_ImportLibraryFileNames  Include="@(Link -> '%(ImportLibrary)')"></_ImportLibraryFileNames>
-      <PackageFile Include="@(BuiltProjectOutputGroupOutput -> '%(FinalOutputPath)')">
-        <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\%(Filename)%(Extension)</PackagePath>
-      </PackageFile>
-      <PackageFile Include="@(_ImportLibraryFileNames->Distinct())">
-        <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\%(Filename)%(Extension)</PackagePath>
-      </PackageFile>
-    </ItemGroup>
-    <Warning Text="$(MSBuildProjectFile) AddBuiltOutput: %(Link.ImportLibrary)"/>
+
+  <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" Condition="'$(BuildingLoggingPackage)' == 'true'">
+      <ItemGroup>
+        <_ImportLibraryFileNames  Include="@(Link -> '%(ImportLibrary)')"></_ImportLibraryFileNames>
+        <PackageFile Include="@(BuiltProjectOutputGroupOutput -> '%(FinalOutputPath)')">
+          <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\%(Filename)%(Extension)</PackagePath>
+        </PackageFile>
+        <PackageFile Include="@(_ImportLibraryFileNames->Distinct())">
+          <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\%(Filename)%(Extension)</PackagePath>
+        </PackageFile>
+      </ItemGroup>
   </Target>
+
 </Project>

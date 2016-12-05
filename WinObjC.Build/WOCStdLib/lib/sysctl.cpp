@@ -16,7 +16,7 @@
 
 #include <WOCStdLib/sys/sysctl.h>
 #include <windows.h>
-#include <Logging\StubReturn.h>
+#include <StubReturn.h>
 
 /**
 @Status Caveat

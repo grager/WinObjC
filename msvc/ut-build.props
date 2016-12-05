@@ -13,4 +13,9 @@
     <NuGetTargetMoniker>UAP,Version=v10.0</NuGetTargetMoniker>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\$(RootNamespace)\</OutDir>
+    <GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
+  </PropertyGroup>
+
 </Project>

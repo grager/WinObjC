@@ -19,7 +19,11 @@
 #include <sys/types.h>
 #include <stdint.h>
 #include <stdio.h>
+
+#ifdef __OBJC__
 #include <MacTypes.h>
+#endif
+
 #include <StarboardExport.h>
 
 struct EbrTimeval {

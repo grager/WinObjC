@@ -20,7 +20,7 @@
 #include <wrl\wrappers\corewrappers.h>
 #include <wrl\client.h>
 #include <windows.system.diagnostics.h>
-#include <Logging/ErrorHandling.h>
+#include <ErrorHandling.h>
 
 using namespace Microsoft::WRL;
 using namespace ABI::Windows::System::Diagnostics;

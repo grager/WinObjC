@@ -596,6 +596,20 @@
       </ClangCompile>
     </ItemGroup>
 
+
+    <!-- Add in the ClCompile additional include directories to clang. -->
+    <PropertyGroup>
+      <_ShouldMakeTmpClCompile Condition="'@(ClCompile)' == ''">true</_ShouldMakeTmpClCompile>
+    </PropertyGroup>
+    <ItemGroup>
+      <ClCompile Include="_tmp" Condition="'$(_ShouldMakeTmpClCompile)' == 'true'"/>
+      <ClangCompile>
+          <IncludePaths>@(ClCompile->Metadata('AdditionalIncludeDirectories')->Distinct()->ClearMetadata());%(ClangCompile.IncludePaths);</IncludePaths>
+      </ClangCompile>
+      <ClCompile Remove="_tmp" Condition="'$(_ShouldMakeTmpClCompile)' == 'true'"/>
+    </ItemGroup>
+    
+
     <!-- Figure out WOCStdlib options to use -->
     <ItemGroup>
       <ClangCompile>
@@ -815,11 +829,11 @@
 
 
   <PropertyGroup>
-    <WinObjCUseCRT Condition="'$(WinObjCUseCRT)' == ''">true</WinObjCUseCRT>
+    <UseWinObjCCRT Condition="'$(UseWinObjCCRT)' == ''">true</UseWinObjCCRT>
   </PropertyGroup>
 
   <ItemDefinitionGroup>
-    <Link Condition="'$(WinObjCUseCRT)' == 'true'">
+    <Link Condition="'$(UseWinObjCCRT)' == 'true'">
       <!-- Ensure we pick up operator new from our project rather than the C runtime -->
       <ForceSymbolReferences>??2@YAPAXI@Z</ForceSymbolReferences>
     </Link>

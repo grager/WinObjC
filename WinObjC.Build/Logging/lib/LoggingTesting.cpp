@@ -14,7 +14,7 @@
 //
 //******************************************************************************
 
-#include "Logging\LoggingTesting.h"
+#include "LoggingTesting.h"
 
 // Test hooks
 bool g_isTestHookEnabled = false;

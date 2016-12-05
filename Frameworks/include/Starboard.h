@@ -17,7 +17,11 @@
 #pragma once
 
 #include "LoggingNative.h"
+
+#ifdef __OBJC__
 #include "IwMalloc.h"
+#endif 
+
 #include <StarboardExport.h>
 
 // Interface should not be defined for Objective-C code
