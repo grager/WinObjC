@@ -34,6 +34,7 @@
     <OutputName>Logging</OutputName>
     <IncludeOutputsInPackage>false</IncludeOutputsInPackage>
     <IncludeContentInPackage>false</IncludeContentInPackage>
+    <PackOnBuild>false</PackOnBuild>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -41,16 +42,12 @@
   <ImportGroup Label="ExtensionSettings">
     <Import Project="$(MSBuildThisFileDirectory)..\..\common\common-build.props" />
   </ImportGroup>
-
-
   <!-- IMPORTANT: This is a hack to get both an "in the build project reference" and a nuget reference to
        work together. When a depending project depends on this project via project reference, the project imports
        the packaging props to impersonate its parent packaging project. In this way, a nuget dependency is created.
        In the normal Package project reference where we actually want the contents to be packaged, it has the same package 
        info as the parent project so it gets rolled together nicely. Hooray. :-(    -->
   <Import Project="$(MSBuildThisFileDirectory)..\..\WinObjC.Logging\WinObjC.Logging.Packaging.props" />
-
-
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalOptions>"/DLOGGING_IMPEXP= " %(AdditionalOptions)</AdditionalOptions>
@@ -74,17 +71,4 @@
   <ItemGroup>
     <None Include="Project.json" />
   </ItemGroup>
-
-  <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" Condition="'$(BuildingLoggingPackage)' == 'true'">
-      <ItemGroup>
-        <_ImportLibraryFileNames  Include="@(Link -> '%(ImportLibrary)')"></_ImportLibraryFileNames>
-        <PackageFile Include="@(BuiltProjectOutputGroupOutput -> '%(FinalOutputPath)')">
-          <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\%(Filename)%(Extension)</PackagePath>
-        </PackageFile>
-        <PackageFile Include="@(_ImportLibraryFileNames->Distinct())">
-          <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\%(Filename)%(Extension)</PackagePath>
-        </PackageFile>
-      </ItemGroup>
-  </Target>
-
 </Project>

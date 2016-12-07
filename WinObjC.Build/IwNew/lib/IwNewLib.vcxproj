@@ -43,6 +43,8 @@
     <None Include="Project.json" />
   </ItemGroup>
 
+  <!-- IwNewLib is weird in that its a lib that is directly packaged. The assumptions in common-build.targets are
+       that libs will be built into dlls that are packaged not a lib directly so recreate the bit needed here to package.-->
   <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" DependsOnTargets="$(GetPackageContentsDependsOn)">
     <ItemGroup>
       <PackageFile Include="@(BuiltProjectOutputGroupKeyOutput -> '%(FinalOutputPath)')">

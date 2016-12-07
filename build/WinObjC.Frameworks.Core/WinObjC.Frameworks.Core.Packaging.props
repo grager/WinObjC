@@ -7,12 +7,12 @@
   </PropertyGroup>
     
   <PropertyGroup>
-      <PackageId>WinObjC.Logging</PackageId>
-      <Title>WinObjC.Logging</Title>
+      <PackageId>WinObjC.Frameworks.Core</PackageId>
+      <Title>WinObjC.Frameworks.Core</Title>
       <Authors>Microsoft</Authors>
       <Owners>Microsoft</Owners>
-      <Summary>WinObjC.Logging</Summary>
-      <Description>WinObjC.Logging</Description>
+      <Summary>WinObjC.Frameworks.Core</Summary>
+      <Description>WinObjC.Frameworks.Core</Description>
       <PackageReleaseNotes>
       </PackageReleaseNotes>
       <PackageProjectUrl>
@@ -20,7 +20,7 @@
       <PackageLicenseUrl>
       </PackageLicenseUrl>
       <Copyright>Copyright © Microsoft</Copyright>
-      <PackageTags>WinObjC.Logging</PackageTags>
+      <PackageTags>WinObjC.Frameworks.Core</PackageTags>
       <IsDevelopmentDependency>true</IsDevelopmentDependency>
       <IncludeSymbolsInPackage>false</IncludeSymbolsInPackage>
       <IncludeFrameworkReferencesInPackage>false</IncludeFrameworkReferencesInPackage>

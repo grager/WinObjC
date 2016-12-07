@@ -398,6 +398,7 @@
         <PrecompiledHeader>NotUsing</PrecompiledHeader>
         <RuntimeLibrary>$(StarboardCRT)</RuntimeLibrary>
         <AdditionalOptions Condition="'$(ConfigurationType)' == 'Application'">$(AdditionalOptions) -D_WOC_APP</AdditionalOptions>
+        <CompileAsWinRT Condition="'$(ConfigurationType)' == 'Application'">true</CompileAsWinRT>
       </ClCompile>
     </ItemGroup>
 
@@ -654,8 +655,8 @@
 
     <PropertyGroup Condition="'@(ClCompile)' != ''">
       <ClCompileCRTs>@(ClCompile->Metadata('RuntimeLibrary')->Distinct()->ClearMetadata())</ClCompileCRTs>
-      <AdditionalOptionsToUse Condition="$(ClCompileCRTs.Contains('MultiThreadedDLL'))">/nodefaultlib:vccorlib /nodefaultlib:msvcrt vccorlib.lib msvcrt.lib </AdditionalOptionsToUse>
-      <AdditionalOptionsToUse Condition="$(ClCompileCRTs.Contains('MultiThreadedDebugDLL'))">/nodefaultlib:vccorlibd /nodefaultlib:msvcrtd vccorlibd.lib msvcrtd.lib </AdditionalOptionsToUse>
+      <AdditionalOptionsToUse Condition="$(ClCompileCRTs.ToLower().Contains('multithreadeddll'))">/nodefaultlib:vccorlib /nodefaultlib:msvcrt vccorlib.lib msvcrt.lib </AdditionalOptionsToUse>
+      <AdditionalOptionsToUse Condition="$(ClCompileCRTs.ToLower().Contains('multithreadeddebugdll'))">/nodefaultlib:vccorlibd /nodefaultlib:msvcrtd vccorlibd.lib msvcrtd.lib </AdditionalOptionsToUse>
     </PropertyGroup>
 
     <ItemGroup>
@@ -684,8 +685,8 @@
 
     <PropertyGroup Condition="'@(ClCompile)' != ''">
       <ClCompileCRTs>@(ClCompile->Metadata('RuntimeLibrary')->Distinct()->ClearMetadata())</ClCompileCRTs>
-      <AdditionalOptionsToUse Condition="$(ClCompileCRTs.Contains('MultiThreadedDLL'))">/nodefaultlib:vccorlib /nodefaultlib:msvcrt vccorlib.lib msvcrt.lib </AdditionalOptionsToUse>
-      <AdditionalOptionsToUse Condition="$(ClCompileCRTs.Contains('MultiThreadedDebugDLL'))">/nodefaultlib:vccorlibd /nodefaultlib:msvcrtd vccorlibd.lib msvcrtd.lib </AdditionalOptionsToUse>
+      <AdditionalOptionsToUse Condition="$(ClCompileCRTs.ToLower().Contains('multithreadeddll'))">/nodefaultlib:vccorlib /nodefaultlib:msvcrt vccorlib.lib msvcrt.lib </AdditionalOptionsToUse>
+      <AdditionalOptionsToUse Condition="$(ClCompileCRTs.ToLower().Contains('multithreadeddebugdll'))">/nodefaultlib:vccorlibd /nodefaultlib:msvcrtd vccorlibd.lib msvcrtd.lib </AdditionalOptionsToUse>
     </PropertyGroup>
 
     <ItemGroup>
@@ -838,5 +839,26 @@
       <ForceSymbolReferences>??2@YAPAXI@Z</ForceSymbolReferences>
     </Link>
   </ItemDefinitionGroup>
+
+
+  <!-- TODO: This should use XMLPoke or similar to dynamically figure out where the important bits are packaged to.-->
+  <ItemGroup Condition="'$(ConfigurationType)' == 'DynamicLibrary' or '$(ConfigurationType)' == 'Application'">
+    <_ReferencesFromPackage Include="$(MSBuildThisFileDirectory)..\lib\$(TargetOsAndVersion)\$(PlatformTarget)\*.winmd"/>    
+    <_ReferencesFromPackage Include="$(MSBuildThisFileDirectory)..\lib\$(TargetOsAndVersion)\$(PlatformTarget)\$(Configuration)\*.winmd"/>
+
+    <_ReferencesFromPackage Include="$(MSBuildThisFileDirectory)..\deps\prebuilt\$(TargetOsAndVersion)\$(PlatformTarget)\*.winmd"/>
+    <_ReferencesFromPackage Include="$(MSBuildThisFileDirectory)..\deps\prebuilt\$(TargetOsAndVersion)\$(PlatformTarget)\$(Configuration)\*.winmd"/>
+    
+    <Reference Include="@(_ReferencesFromPackage)">
+      <Implementation>%(Filename).dll</Implementation>
+    </Reference>
+
+    <ReferenceCopyLocalPaths Include="$(MSBuildThisFileDirectory)..\lib\$(TargetOsAndVersion)\$(PlatformTarget)\*.dll"/>
+    <ReferenceCopyLocalPaths Include="$(MSBuildThisFileDirectory)..\lib\$(TargetOsAndVersion)\$(PlatformTarget)\$(Configuration)\*.dll"/>
+
+    <ReferenceCopyLocalPaths Include="$(MSBuildThisFileDirectory)..\deps\prebuilt\$(TargetOsAndVersion)\$(PlatformTarget)\*.dll"/>
+    <ReferenceCopyLocalPaths Include="$(MSBuildThisFileDirectory)..\deps\prebuilt\$(TargetOsAndVersion)\$(PlatformTarget)\$(Configuration)\*.dll"/>
+
+  </ItemGroup>
 
 </Project>

@@ -37,6 +37,7 @@
     <OutputName>WinObjCRT</OutputName>
     <IncludeOutputsInPackage>false</IncludeOutputsInPackage>
     <IncludeContentInPackage>false</IncludeContentInPackage>
+    <HasConfigurationSpecificPackageContents>true</HasConfigurationSpecificPackageContents>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -55,19 +56,6 @@
   <ItemGroup>
     <None Include="Project.json" />
   </ItemGroup>
-
-  <Target Name="AddBuiltOutput" 
-          BeforeTargets="GetPackageContents">
-    <ItemGroup>      
-    <_ImportLibraryFileNames  Include="@(Link -> '%(ImportLibrary)')"></_ImportLibraryFileNames>
-      <PackageFile Include="@(BuiltProjectOutputGroupOutput -> '%(FinalOutputPath)')">
-        <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\$(Configuration)\%(Filename)%(Extension)</PackagePath>
-      </PackageFile>
-      <PackageFile Include="@(_ImportLibraryFileNames->Distinct())">
-        <PackagePath>build\lib\$(TargetOsAndVersion)\$(PlatformTarget)\$(Configuration)\%(Filename)%(Extension)</PackagePath>
-      </PackageFile>
-    </ItemGroup>
-  </Target>
 
     <Target Name="AddSingleConfigBuildOutput"  Returns="@(_PackageContentsForPlat)"> 
       <MSBuild Projects="$(SolutionPath)"

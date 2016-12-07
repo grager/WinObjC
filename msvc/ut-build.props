@@ -5,6 +5,7 @@
     <ClangCompile>
       <AdditionalOptions>-Werror=microsoft %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>_WINOBJC_DO_NOT_USE_NSLOG=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalUsingDirectories>$(VCInstallDir)\VCPackages;$(WindowsSdkDir)\UnionMetadata;%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
     </ClangCompile>
   </ItemDefinitionGroup>
 

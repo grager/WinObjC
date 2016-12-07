@@ -5,7 +5,7 @@
          NOTE: Its important that this information is added at the end in the .targets instead of in the .props so that consumers don't
          accidentially stomp it. This is contrary to a configurable type property that a consumer may want / need to adust. To depend on
          this package means the consumer gets these these things.  -->
-         
+
     <ItemDefinitionGroup>
         <ClCompile>
           <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)\include\;%(AdditionalIncludeDirectories);</AdditionalIncludeDirectories>
@@ -14,7 +14,16 @@
         <!-- Add in the link bits only if its a "final" linked product likea  dll or exe -->
         <Link Condition="'$(ConfigurationType)' == 'DynamicLibrary' or '$(ConfigurationType)' == 'Application'">
           <AdditionalDependencies>Logging.lib;%(AdditionalDependencies);</AdditionalDependencies>
-          <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)\lib\$(TargetOsAndVersion)\$(PlatformTarget);%(AdditionalLibraryDirectories);</AdditionalLibraryDirectories>
+          <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)\lib\$(TargetOsAndVersion)\$(PlatformTarget)\;%(AdditionalLibraryDirectories);</AdditionalLibraryDirectories>
         </Link>
     </ItemDefinitionGroup>
+
+    <!-- TODO: This should use XMLPoke or similar to dynamically figure out where the important bits are packaged to.-->
+    <ItemGroup Condition="'$(ConfigurationType)' == 'DynamicLibrary' or '$(ConfigurationType)' == 'Application'">
+      <_ReferencesFromPackage Include="$(MSBuildThisFileDirectory)\lib\$(TargetOsAndVersion)\$(PlatformTarget)\*.winmd"/>
+      <Reference Include="@(_ReferencesFromPackage)">
+        <Implementation>%(Filename).dll</Implementation>
+      </Reference>
+      <ReferenceCopyLocalPaths Include="$(MSBuildThisFileDirectory)\lib\$(TargetOsAndVersion)\$(PlatformTarget)\*.dll"/>
+    </ItemGroup>
 </Project>
