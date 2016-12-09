@@ -26,14 +26,21 @@
 #endif
 #pragma push_macro("Nil")
 #undef Nil
+#pragma push_macro("__alignof")
+#define __alignof alignof
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmicrosoft"
 #endif
 
 #include <Windows.UI.Xaml.Media.h>
 #include <UWP/RTHelpers.h>
+#include <WexTestClass.h>
 
 #ifdef __OBJC__
 #pragma pop_macro("Nil")
 #pragma pop_macro("interface")
+#pragma pop_macro("__alignof")
+#pragma clang diagnostic pop
 #endif
 
 #import <UWP/WindowsUIXamlMedia.h>
