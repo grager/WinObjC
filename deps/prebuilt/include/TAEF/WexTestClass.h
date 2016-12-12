@@ -644,7 +644,7 @@ namespace WEX
 #endif
 
 /// \internal
-/// <summary> Instruct oacr to ignore "static initializer causes copy on write pages due to member function pointers" warning
+/// <summary> Instruct oa cr to ignore "static initializer causes copy on write pages due to member function pointers" warning
 ///           Disables 'construction of local static object is not thread-safe'
 /// </summary>
 #define TAEF_PUSH_IGNORE_WARNINGS                __pragma (warning(push)) \
@@ -656,6 +656,23 @@ namespace WEX
 // The IntelliSense compiler reports errors when trying to parse TAEF_REGISTER_FIXTURE_METHOD and TAEF_REGISTER_TEST_METHOD.
 #define TAEF_REGISTER_FIXTURE_METHOD(methodName, methodType)
 #define TAEF_REGISTER_TEST_METHOD(methodName)
+#else
+
+#if defined (__clang__)
+#define TAEF_REGISTER_FIXTURE_METHOD(methodName, methodType) \
+    struct TAEF_FixtureInvoker \
+    { \
+        static HRESULT __cdecl TAEF_Invoke(void* pTestClass) \
+        { \
+            /* TAEF_TestClassType was typedef'd in the TEST_CLASS macro so we can safely cast from \
+               void* to TAEF_TestClassType* and invoke the correct derived type's member functions */ \
+            return WEX::SafeInvoke(WEX::FixtureInvokeFunctor<TAEF_TestClassType>(*reinterpret_cast<TAEF_TestClassType*>(pTestClass), &TAEF_TestClassType::methodName)); \
+        } \
+    }; \
+    TAEF_PUSH_IGNORE_WARNINGS \
+    TAEF_PIN_FUNCTION_SYMBOL TAEF_ATTRIBUTE_SECTION("testdata$e_FMI") \
+    static const WEX::FixtureMethodInfo s_testInfo = {methodType, L#methodName, c_taefClassName, &TAEF_FixtureInvoker::TAEF_Invoke}; \
+    return &s_testInfo; /* Return a pointer to s_testInfo in order to pin the struct into the dll so it does not get stripped out by the linker. */
 #else
 #define TAEF_REGISTER_FIXTURE_METHOD(methodName, methodType) \
     struct TAEF_FixtureInvoker \
@@ -671,8 +688,26 @@ namespace WEX
     TAEF_PIN_FUNCTION_SYMBOL TAEF_ATTRIBUTE_SECTION("testdata$e_FMI") \
     static const WEX::FixtureMethodInfo s_testInfo = {methodType, L#methodName, c_taefClassName, &TAEF_FixtureInvoker::TAEF_Invoke}; \
     return &s_testInfo; /* Return a pointer to s_testInfo in order to pin the struct into the dll so it does not get stripped out by the linker. */
+#endif
 
 #if defined (__clang__)
+#define TAEF_REGISTER_TEST_METHOD(methodName) \
+    struct TAEF_TestInvoker \
+    { \
+        static HRESULT __cdecl TAEF_Invoke(void* pTestClass) \
+        { \
+            /* TAEF_TestClassType was typedef'd in the TEST_CLASS macro so we can safely cast from \
+               void* to TAEF_TestClassType* and invoke the correct type's member functions */ \
+            return WEX::SafeInvoke(WEX::TestInvokeFunctor<TAEF_TestClassType>(*reinterpret_cast<TAEF_TestClassType*>(pTestClass), &TAEF_TestClassType::methodName)); \
+        } \
+    }; \
+    static constexpr auto s_qualifiedMethodName = WEX::Private::BuildQualifiedName(c_taefClassNameArray, L#methodName); \
+    TAEF_PUSH_IGNORE_WARNINGS \
+    TAEF_PIN_FUNCTION_SYMBOL TAEF_ATTRIBUTE_SECTION("testdata$c_TMI") \
+    static const WEX::TestMethodInfo s_testInfo = {WEX::TAEF_Identifier::TestMethodInfo, L#methodName, &s_qualifiedMethodName[0], \
+                                                   __COUNTER__ - TAEF_TestMethodIndexOffset, &TAEF_TestInvoker::TAEF_Invoke}; \
+    return &s_testInfo; /* Return a pointer to s_testInfo in order to pin the struct into the dll so it does not get stripped out by the linker. */
+#else
 #define TAEF_REGISTER_TEST_METHOD(methodName) \
     struct TAEF_TestInvoker \
     { \
@@ -850,6 +885,46 @@ namespace WEX
 ///          TEST_CLASS(TestFeatureClass)
 ///      }
 /// \endcode
+#if defined (__clang__)
+#define TEST_CLASS(className) \
+protected: \
+    static constexpr auto c_taefClassName = L# className; \
+    static constexpr const wchar_t c_taefClassNameArray[] = L# className; \
+    typedef className TAEF_TestClassType; \
+    static const uintptr_t TAEF_TestMethodIndexOffset = __COUNTER__; \
+    friend struct WEX::TestClassFactory<className>; \
+    typedef bool (className::*TAEF_MemberMaintFunc)(); \
+    __pragma(warning(suppress:25007)) /* Disable warning that member method may be static */ \
+    bool TAEF_DummyMaintFunc() { return true; } \
+    static const  __declspec(dllexport) WEX::TestClassInfo* TAEF_GetTestClassInfo() \
+    { \
+        /* this works similarly to WEX::Common::Conversion<T, U> checking if an expression (&_DummyMaintFunc) \
+         * is convertible to the MemberMaintFunc type \
+         */ \
+        struct TaefClassNameTester { \
+            /* these functions are only implemented because they're in an local class, so the compiler warns about missing definitions */ \
+            static char TestType(TAEF_MemberMaintFunc) \
+            { \
+                return 'c'; \
+            } \
+            static TaefClassNameTester TestType(...) \
+            { \
+                return TaefClassNameTester(); \
+            } \
+            char member[2]; /* a two element array to ensure a different size from char returned by TestType(MemberMaintFunc) */ \
+        }; \
+        COMPILE_TIME_CHECK_V2(sizeof(TaefClassNameTester::TestType(&TAEF_TestClassType::TAEF_DummyMaintFunc)) == 1, \
+                TAEF_STRINGIZE(className) " is not the name of the current class", \
+                Not_current_test_class_name); \
+ \
+        TAEF_PUSH_IGNORE_WARNINGS \
+        TAEF_PIN_FUNCTION_SYMBOL TAEF_ATTRIBUTE_SECTION("testdata$b_TCI") \
+        static WEX::TestClassInfo const s_ClassInfo = \
+            {WEX::TAEF_Identifier::TestClassInfo, c_taefClassName, &WEX::TestClassFactory<className>::CreateInstance, \
+             &WEX::TestClassFactory<className>::DestroyInstance }; \
+        return &s_ClassInfo; \
+    }
+#else
 #define TEST_CLASS(className) \
     typedef className TAEF_TestClassType; \
     static constexpr wchar_t* c_taefClassName = L# className; \
@@ -887,6 +962,7 @@ namespace WEX
              &WEX::TestClassFactory<className>::DestroyInstance }; \
         return &s_ClassInfo; \
     }
+#endif
 /// <summary>
 ///  Macro for declaring a test class and associating it with metadata
 /// </summary>
@@ -900,6 +976,7 @@ namespace WEX
 ///      END_TEST_CLASS()
 ///  }
 /// \endcode
+#if defined (__clang__)
 #define BEGIN_TEST_CLASS(className) \
     TEST_CLASS(className) \
  \
@@ -908,6 +985,16 @@ namespace WEX
         TAEF_PIN_FUNCTION_SYMBOL TAEF_ATTRIBUTE_SECTION("testdata$g_TCM") \
         static const WEX::TestPropertyMetadata s_Metadata[] = { \
             {WEX::TAEF_Identifier::TestClassMetadata, L"Name", c_taefClassName },
+#else
+#define BEGIN_TEST_CLASS(className) \
+    TEST_CLASS(className) \
+ \
+    static const __declspec(dllexport) WEX::TestPropertyMetadata* TAEF_GetClassMetadata() \
+    { \
+        TAEF_PIN_FUNCTION_SYMBOL TAEF_ATTRIBUTE_SECTION("testdata$g_TCM") \
+        static const WEX::TestPropertyMetadata s_Metadata[] = { \
+            {WEX::TAEF_Identifier::TestClassMetadata, L"Name", c_taefClassName },
+#endif
 
 /// <summary>
 ///  Macro for adding a piece of metadata to a test class declaration.

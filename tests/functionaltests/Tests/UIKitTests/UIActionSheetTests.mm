@@ -14,7 +14,7 @@
 //
 //******************************************************************************
 #include <TestFramework.h>
-#import <UIKit/UISlider.h>
+#import <UIKit/UIActionSheet.h>
 
 #include <COMIncludes.h>
 #import <WRLHelpers.h>
@@ -30,9 +30,9 @@
 #include "ObjCXamlControls.h"
 #import "UWP/WindowsUIXamlControls.h"
 
-class UIKitSliderTests {
+class UIKitActionSheetTests {
 public:
-    BEGIN_TEST_CLASS(UIKitSliderTests)
+    BEGIN_TEST_CLASS(UIKitActionSheetTests)
     END_TEST_CLASS()
 
     TEST_CLASS_SETUP(UIKitTestsSetup) {
@@ -44,22 +44,46 @@ public:
         return true;
     }
 
-    TEST(UISlider, CreateXamlElement) {
+    TEST(UIActionSheet, CreateXamlElement) {
         FrameworkHelper::RunOnUIThread([]() {
             // TODO: Switch to UIKit.Xaml projections when they're available.
-            Microsoft::WRL::ComPtr<IInspectable> xamlElement(XamlCreateSlider());
+            Microsoft::WRL::ComPtr<IInspectable> xamlElement(XamlCreateContentDialog());
             ASSERT_TRUE(xamlElement);
         });
     }
 
-    TEST(UISlider, GetXamlElement) {
+    TEST(UIActionSheet, GetXamlElement) {
         FrameworkHelper::RunOnUIThread([]() {
-            UIView* view = [[[UISlider alloc] init] autorelease];
-            WXFrameworkElement* backingElement = [view xamlElement];
+            UIActionSheet* actionSheet = [[[UIActionSheet alloc] init] autorelease];
+            WXFrameworkElement* backingElement = [actionSheet xamlElement];
             ASSERT_TRUE(backingElement);
 
-            // TODO: Fix up when UISlider moves fully to XAML
             ASSERT_TRUE([backingElement isKindOfClass:[WXFrameworkElement class]]);
+        });
+    }
+
+    TEST(UIActionSheet, NilParameters) {
+        FrameworkHelper::RunOnUIThread([]() {
+            UIActionSheet* actionSheet = [[[UIActionSheet alloc] initWithTitle:nil
+                                                                      delegate:nil
+                                                             cancelButtonTitle:nil
+                                                        destructiveButtonTitle:nil
+                                                             otherButtonTitles:nil] autorelease];
+            WXFrameworkElement* backingElement = [actionSheet xamlElement];
+            ASSERT_TRUE(backingElement);
+
+            // Check that cancel button index, destructive button index, other button index are correct
+            NSInteger numButtons = [actionSheet numberOfButtons];
+            ASSERT_TRUE(numButtons == 0);
+
+            NSInteger cancelIndex = [actionSheet cancelButtonIndex];
+            ASSERT_TRUE(cancelIndex == -1);
+
+            NSInteger destructiveIndex = [actionSheet destructiveButtonIndex];
+            ASSERT_TRUE(cancelIndex == -1);
+
+            NSInteger otherIndex = [actionSheet firstOtherButtonIndex];
+            ASSERT_TRUE(otherIndex == -1);
         });
     }
 };

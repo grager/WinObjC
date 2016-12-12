@@ -27,9 +27,6 @@
       <Filter>Framework</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests\FunctionalTestHelpers.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests\Tests\AssetsLibraryTests\AssetsLibraryTestHelpers.h">
-      <Filter>Tests\AssetsLibraryTests</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests\FunctionalTests.cpp" />
@@ -39,9 +36,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClangCompile Include="$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests\Tests\SampleTest.mm">
-      <Filter>Tests</Filter>
-    </ClangCompile>
     <ClangCompile Include="$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests\Tests\NSURLConnection.mm">
       <Filter>Tests</Filter>
     </ClangCompile>
@@ -83,9 +77,6 @@
       <Filter>Tests</Filter>
     </ClangCompile>
     <ClangCompile Include="$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests\Tests\AssetsLibraryTests\AssetsLibraryTests.mm">
-      <Filter>Tests\AssetsLibraryTests</Filter>
-    </ClangCompile>
-    <ClangCompile Include="$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests\Tests\AssetsLibraryTests\AssetsLibraryTestHelpers.mm">
       <Filter>Tests\AssetsLibraryTests</Filter>
     </ClangCompile>
     <ClangCompile Include="$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests\Tests\ProjectionTests\CoreDispatcherTests.mm" />
