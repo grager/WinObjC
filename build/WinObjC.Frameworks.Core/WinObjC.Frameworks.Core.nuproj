@@ -15,7 +15,7 @@
   </ItemGroup>
   <Import Project="WinObjC.Frameworks.Core.Packaging.props" />
   <PropertyGroup Label="Globals">
-    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <OutputPath>$(SolutionDir)\OutputPackages\$(Configuration)\</OutputPath>
     <ProjectGuid>1751f526-3ce3-46cb-8724-e250410d600e</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>

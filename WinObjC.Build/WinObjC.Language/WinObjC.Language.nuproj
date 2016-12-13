@@ -51,7 +51,7 @@
     <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
   <PropertyGroup Label="Globals">
-    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <OutputPath>$(SolutionDir)\OutputPackages\$(Configuration)\</OutputPath>
     <ProjectGuid>acc82389-f9eb-49e2-8f8a-c3a8d9360569</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
