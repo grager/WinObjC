@@ -20,102 +20,82 @@
 #import <UWP/WindowsFoundation.h>
 #import <UWP/WindowsStorage.h>
 
-//
-// NSURLStorageFileTests
-//
-extern void NSURLStorageFileURL();
+TEST(NSURL, StorageFileURL) {
+    
+    // First up is to make a storage file for something. Lets create a new file and use that.
+    __block WSStorageFile* storageFile = nil;
+    __block bool signaled = false;
+    __block NSCondition* condition = [NSCondition new];
 
-class NSURLStorageFileTests {
-public:
-    BEGIN_TEST_CLASS(NSURLStorageFileTests)
-    END_TEST_CLASS()
+    [[[WSApplicationData current] localFolder] createFileAsync:@"tempStorageFile.txt" options:WSCreationCollisionOptionOpenIfExists 
+        success:^void(WSStorageFile* file) {
+           storageFile = file;
+           [condition lock];
+           signaled = true;
+           [condition signal];
+           [condition unlock];
+         }
 
-    TEST_CLASS_SETUP(NSURLStorageFileTestsSetup) {
-        return SUCCEEDED(FrameworkHelper::RunOnUIThread(&UIApplicationDefaultInitialize));
-    }
+         failure:^void(NSError* error) {
+            LOG_ERROR([[error description] UTF8String]);
+           [condition lock];
+           signaled = true;
+           [condition signal];
+           [condition unlock];
+         }];
 
-    TEST_METHOD_CLEANUP(NSURLStorageFileTestsCleanup) {
-        FunctionalTestCleanupUIApplication();
-        return true;
-    }
+    [condition lock];
+    ASSERT_TRUE(signaled || [condition waitUntilDate:[NSDate dateWithTimeIntervalSinceNow:10]]);
+    [condition unlock];
 
-    TEST(NSURL, StorageFileURL) {
-        // First up is to make a storage file for something. Lets create a new file and use that.
-        __block WSStorageFile* storageFile = nil;
-        __block bool signaled = false;
-        __block NSCondition* condition = [NSCondition new];
+    ASSERT_TRUE(nil != storageFile);
 
-        [[[WSApplicationData current] localFolder] createFileAsync:@"tempStorageFile.txt"
-            options:WSCreationCollisionOptionOpenIfExists
-            success:^void(WSStorageFile* file) {
-                storageFile = file;
-                [condition lock];
-                signaled = true;
-                [condition signal];
-                [condition unlock];
-            }
+    WSStorageFile* lambdaStorageFile = storageFile; 
 
-            failure:^void(NSError* error) {
-                LOG_ERROR([[error description] UTF8String]);
-                [condition lock];
-                signaled = true;
-                [condition signal];
-                [condition unlock];
-            }];
+    // Now that a storage file is created. Lets make sure we delete it in case of test failure.
+    auto deleter = wil::ScopeExit([&lambdaStorageFile]() {
+        __block NSCondition* deleterCondition = [NSCondition new];
+        __block bool deleterSignaled = false;
+        [[lambdaStorageFile deleteAsyncOverloadDefaultOptions] setCompleted:^void(RTObject<WFIAsyncAction>* asyncInfo, WFAsyncStatus asyncStatus) {
+           [deleterCondition lock];
+           deleterSignaled = true;
+           [deleterCondition signal];
+           [deleterCondition unlock];
+         }];
 
-        [condition lock];
-        ASSERT_TRUE(signaled || [condition waitUntilDate:[NSDate dateWithTimeIntervalSinceNow:10]]);
-        [condition unlock];
+        [deleterCondition lock];
+        ASSERT_TRUE(deleterSignaled || [deleterCondition waitUntilDate:[NSDate dateWithTimeIntervalSinceNow:10]]);
+        [deleterCondition unlock];
+    });
 
-        ASSERT_TRUE(nil != storageFile);
+    // Ok all the logistics are taken care of. Lets get to work on the meat of the test. mmmmm URLs.
+    NSURL* storageUrl = [NSURL URLWithStorageFile:storageFile];
 
-        WSStorageFile* lambdaStorageFile = storageFile;
+    // Lets write some data!!!!
+    unsigned char rawDataToWrite[] = { 'a', 'b', 'c' };
+    NSData* writeData = [NSData dataWithBytesNoCopy:rawDataToWrite length:_countof(rawDataToWrite) freeWhenDone:NO];
+    ASSERT_TRUE([writeData writeToURL:storageUrl options:0 error:nil]);
 
-        // Now that a storage file is created. Lets make sure we delete it in case of test failure.
-        auto deleter = wil::ScopeExit([&lambdaStorageFile]() {
-            __block NSCondition* deleterCondition = [NSCondition new];
-            __block bool deleterSignaled = false;
-            [[lambdaStorageFile deleteAsyncOverloadDefaultOptions]
-                setCompleted:^void(RTObject<WFIAsyncAction>* asyncInfo, WFAsyncStatus asyncStatus) {
-                    [deleterCondition lock];
-                    deleterSignaled = true;
-                    [deleterCondition signal];
-                    [deleterCondition unlock];
-                }];
+    // Ok now lets read it out!!!
+    NSData* readData = [NSData dataWithContentsOfURL:storageUrl];
+    ASSERT_TRUE([readData isEqual:writeData]);
 
-            [deleterCondition lock];
-            ASSERT_TRUE(deleterSignaled || [deleterCondition waitUntilDate:[NSDate dateWithTimeIntervalSinceNow:10]]);
-            [deleterCondition unlock];
-        });
+    // Try writing different data!!!
+    unsigned char rawDataToWrite2[] = { 'e', 'f', 'g' };
+    writeData = [NSData dataWithBytesNoCopy:rawDataToWrite2 length:_countof(rawDataToWrite2) freeWhenDone:NO];
+    ASSERT_TRUE([writeData writeToURL:storageUrl options:0 error:nil]);
 
-        // Ok all the logistics are taken care of. Lets get to work on the meat of the test. mmmmm URLs.
-        NSURL* storageUrl = [NSURL URLWithStorageFile:storageFile];
+    readData = [NSData dataWithContentsOfURL:storageUrl];
+    ASSERT_TRUE([readData isEqual:writeData]);
 
-        // Lets write some data!!!!
-        unsigned char rawDataToWrite[] = { 'a', 'b', 'c' };
-        NSData* writeData = [NSData dataWithBytesNoCopy:rawDataToWrite length:_countof(rawDataToWrite) freeWhenDone:NO];
-        ASSERT_TRUE([writeData writeToURL:storageUrl options:0 error:nil]);
+    // Now with appending!
+    writeData = [NSData dataWithBytesNoCopy:rawDataToWrite length:_countof(rawDataToWrite) freeWhenDone:NO];
+    ASSERT_TRUE([writeData writeToURL:storageUrl options:NSDataWritingWithoutOverwriting error:nil]);
 
-        // Ok now lets read it out!!!
-        NSData* readData = [NSData dataWithContentsOfURL:storageUrl];
-        ASSERT_TRUE([readData isEqual:writeData]);
 
-        // Try writing different data!!!
-        unsigned char rawDataToWrite2[] = { 'e', 'f', 'g' };
-        writeData = [NSData dataWithBytesNoCopy:rawDataToWrite2 length:_countof(rawDataToWrite2) freeWhenDone:NO];
-        ASSERT_TRUE([writeData writeToURL:storageUrl options:0 error:nil]);
+    unsigned char rawDataToValidate[] = { 'e', 'f', 'g', 'a', 'b', 'c'}; 
+    NSData* appendData = [NSData dataWithBytesNoCopy:rawDataToValidate length:_countof(rawDataToValidate) freeWhenDone:NO];
 
-        readData = [NSData dataWithContentsOfURL:storageUrl];
-        ASSERT_TRUE([readData isEqual:writeData]);
-
-        // Now with appending!
-        writeData = [NSData dataWithBytesNoCopy:rawDataToWrite length:_countof(rawDataToWrite) freeWhenDone:NO];
-        ASSERT_TRUE([writeData writeToURL:storageUrl options:NSDataWritingWithoutOverwriting error:nil]);
-
-        unsigned char rawDataToValidate[] = { 'e', 'f', 'g', 'a', 'b', 'c' };
-        NSData* appendData = [NSData dataWithBytesNoCopy:rawDataToValidate length:_countof(rawDataToValidate) freeWhenDone:NO];
-
-        readData = [NSData dataWithContentsOfURL:storageUrl];
-        ASSERT_TRUE([readData isEqual:appendData]);
-    }
-};
+    readData = [NSData dataWithContentsOfURL:storageUrl];
+    ASSERT_TRUE([readData isEqual:appendData]);
+}

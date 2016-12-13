@@ -30,36 +30,23 @@
 #include "ObjCXamlControls.h"
 #import "UWP/WindowsUIXamlControls.h"
 
-class UIKitSliderTests {
-public:
-    BEGIN_TEST_CLASS(UIKitSliderTests)
-    END_TEST_CLASS()
+TEST(UISlider, CreateXamlElement) {
+    dispatch_sync(dispatch_get_main_queue(),
+                  ^{
+                      // TODO: Switch to UIKit.Xaml projections when they're available.
+                      Microsoft::WRL::ComPtr<IInspectable> xamlElement(XamlCreateSlider());
+                      ASSERT_TRUE(xamlElement);
+                  });
+}
 
-    TEST_CLASS_SETUP(UIKitTestsSetup) {
-        return SUCCEEDED(FrameworkHelper::RunOnUIThread(&UIApplicationDefaultInitialize));
-    }
+TEST(UISlider, GetXamlElement) {
+    dispatch_sync(dispatch_get_main_queue(),
+                  ^{
+                      UIView* view = [[[UISlider alloc] init] autorelease];
+                      WXFrameworkElement* backingElement = [view xamlElement];
+                      ASSERT_TRUE(backingElement);
 
-    TEST_METHOD_CLEANUP(UIKitTestsCleanup) {
-        FunctionalTestCleanupUIApplication();
-        return true;
-    }
-
-    TEST(UISlider, CreateXamlElement) {
-        FrameworkHelper::RunOnUIThread([]() {
-            // TODO: Switch to UIKit.Xaml projections when they're available.
-            Microsoft::WRL::ComPtr<IInspectable> xamlElement(XamlCreateSlider());
-            ASSERT_TRUE(xamlElement);
-        });
-    }
-
-    TEST(UISlider, GetXamlElement) {
-        FrameworkHelper::RunOnUIThread([]() {
-            UIView* view = [[[UISlider alloc] init] autorelease];
-            WXFrameworkElement* backingElement = [view xamlElement];
-            ASSERT_TRUE(backingElement);
-
-            // TODO: Fix up when UISlider moves fully to XAML
-            ASSERT_TRUE([backingElement isKindOfClass:[WXFrameworkElement class]]);
-        });
-    }
-};
+                      // TODO: Fix up when UISlider moves fully to XAML
+                      ASSERT_TRUE([backingElement isKindOfClass:[WXFrameworkElement class]]);
+                  });
+}
