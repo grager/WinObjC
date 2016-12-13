@@ -23,8 +23,8 @@
 #include <windows.security.cryptography.h>
 #include <windows.storage.streams.h>
 #include <COMIncludes_End.h>
-#include <Logging\ErrorHandling.h>
-#include <Logging\StubReturn.h>
+#include <ErrorHandling.h>
+#include <StubReturn.h>
 #include <RawBuffer.h>
 
 using namespace Microsoft::WRL;

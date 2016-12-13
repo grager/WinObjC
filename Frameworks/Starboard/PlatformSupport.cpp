@@ -31,7 +31,7 @@
 #include <pthread.h>
 #include "pevents.h"
 #include "PathMapper.h"
-#include "Logging\LoggingNative.h"
+#include "LoggingNative.h"
 
 void EbrBlockIfBackground() {
 }
