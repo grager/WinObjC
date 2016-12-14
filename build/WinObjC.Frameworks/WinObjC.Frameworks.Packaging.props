@@ -27,11 +27,13 @@
   </PropertyGroup>
 
   <!-- TODO: read in BasePackageVersion from somewhere useful -->
-  <PropertyGroup>
+  <Target Name="SetPackageVersion" BeforeTargets="GetPackageVersion" DependsOnTargets="$(GetPackageVersionDependsOn)" Returns="$(PackageVersion)">
+    <PropertyGroup>
       <BasePackageVersion>0.0.1</BasePackageVersion>
       <PackageVersion Condition="'$(GitBranch)' == 'master'">$(BasePackageVersion)</PackageVersion>
       <PackageVersion Condition="'$(GitBranch)' == 'develop'">$(BasePackageVersion)-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss)).dev</PackageVersion>
       <PackageVersion Condition="'$(PackageVersion)' == ''">$(BasePackageVersion)-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss)).pr</PackageVersion>
-  </PropertyGroup>
+    </PropertyGroup>
+  </Target>
 
 </Project>
