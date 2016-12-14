@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <!-- Make sure that the logging artifacts are included in the build. This means adding include paths and link libraries for it.
+    <!-- Make sure that the output artifacts are included in the build. This means adding include paths and link libraries for it.
 
-         NOTE: Its important that this information is added at the end in the .targets instead of in the .props so that consumers don't
+         NOTE: It is important that this information is added at the end in the .targets instead of in the .props so that consumers don't
          accidentially stomp it. This is contrary to a configurable type property that a consumer may want / need to adust. To depend on
          this package means the consumer gets these these things.  -->
 

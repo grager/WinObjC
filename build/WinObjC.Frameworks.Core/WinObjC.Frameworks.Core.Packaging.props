@@ -3,7 +3,6 @@
 
   <PropertyGroup>
       <GitThisAssembly>true</GitThisAssembly>
-      <InferLegacyPackageReferences>false</InferLegacyPackageReferences>
   </PropertyGroup>
     
   <PropertyGroup>

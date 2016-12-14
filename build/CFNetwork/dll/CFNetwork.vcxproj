@@ -46,6 +46,7 @@
   <ImportGroup Label="ExtensionSettings">
     <Import Project="$(StarboardBasePath)\msvc\sdk-build.props" />
   </ImportGroup>
+  <Import Project="$(MSBuildThisFileDirectory)..\..\WinObjC.Frameworks.Core\WinObjC.Frameworks.Core.Packaging.props" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <CompileAsWinRT>false</CompileAsWinRT>

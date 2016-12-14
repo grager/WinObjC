@@ -120,7 +120,7 @@
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\TAEF\lib\$(Platform);$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\$(TargetOSAndVersion)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Wex.Logger.lib;Wex.Common.lib;TE.Common.lib;libdispatch.lib;RTObjCInterop.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Wex.Logger.lib;Wex.Common.lib;TE.Common.lib;RTObjCInterop.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClangCompile>
       <IncludePaths>$(MSBuildThisFileDirectory)..\..\..\Frameworks\include;$(MSBuildThisFileDirectory)..\..\..\Frameworks\UIKit.Xaml;$(MSBuildThisFileDirectory)..\..\..\include\xplat;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\include;$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest\include;$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\include\TAEF;%(IncludePaths)</IncludePaths>
@@ -153,7 +153,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\TAEF\lib\$(Platform);$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\$(TargetOSAndVersion)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Wex.Logger.lib;Wex.Common.lib;TE.Common.lib;libdispatch.lib;RTObjCInterop.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Wex.Logger.lib;Wex.Common.lib;TE.Common.lib;RTObjCInterop.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClangCompile>
       <IncludePaths>$(MSBuildThisFileDirectory)..\..\..\Frameworks\include;$(MSBuildThisFileDirectory)..\..\..\Frameworks\UIKit.Xaml;$(MSBuildThisFileDirectory)..\..\..\include\xplat;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\include;$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest\include;$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\include\TAEF;%(IncludePaths)</IncludePaths>
@@ -182,7 +182,7 @@
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\TAEF\lib\$(Platform);$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\$(TargetOSAndVersion)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Wex.Logger.lib;Wex.Common.lib;TE.Common.lib;libdispatch.lib;RTObjCInterop.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Wex.Logger.lib;Wex.Common.lib;TE.Common.lib;RTObjCInterop.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClangCompile>
       <IncludePaths>$(MSBuildThisFileDirectory)..\..\..\Frameworks\include;$(MSBuildThisFileDirectory)..\..\..\Frameworks\UIKit.Xaml;$(MSBuildThisFileDirectory)..\..\..\include\xplat;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\include;$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest\include;$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\include\TAEF;%(IncludePaths)</IncludePaths>
@@ -215,7 +215,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\TAEF\lib\$(Platform);$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\$(TargetOSAndVersion)\$(PlatformTarget);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Wex.Logger.lib;Wex.Common.lib;TE.Common.lib;libdispatch.lib;RTObjCInterop.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Wex.Logger.lib;Wex.Common.lib;TE.Common.lib;RTObjCInterop.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClangCompile>
       <IncludePaths>$(MSBuildThisFileDirectory)..\..\..\Frameworks\include;$(MSBuildThisFileDirectory)..\..\..\Frameworks\UIKit.Xaml;$(MSBuildThisFileDirectory)..\..\..\include\xplat;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\include;$(MSBuildThisFileDirectory)..\..\..\tests\functionaltests;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest;$(MSBuildThisFileDirectory)..\..\..\tests\frameworks\gtest\include;$(MSBuildThisFileDirectory)..\..\..\deps\prebuilt\include\TAEF;%(IncludePaths)</IncludePaths>

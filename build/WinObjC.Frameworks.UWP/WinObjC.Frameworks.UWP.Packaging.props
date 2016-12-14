@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+      <GitThisAssembly>true</GitThisAssembly>
+  </PropertyGroup>
+    
+  <PropertyGroup>
+      <PackageId>WinObjC.Frameworks.UWP</PackageId>
+      <Title>WinObjC.Frameworks.UWP</Title>
+      <Authors>Microsoft</Authors>
+      <Owners>Microsoft</Owners>
+      <Summary>WinObjC.Frameworks.UWP</Summary>
+      <Description>WinObjC.Frameworks.UWP</Description>
+      <PackageReleaseNotes>
+      </PackageReleaseNotes>
+      <PackageProjectUrl>
+      </PackageProjectUrl>
+      <PackageLicenseUrl>
+      </PackageLicenseUrl>
+      <Copyright>Copyright © Microsoft</Copyright>
+      <PackageTags>WinObjC.Frameworks.UWP</PackageTags>
+      <IsDevelopmentDependency>true</IsDevelopmentDependency>
+      <IncludeSymbolsInPackage>false</IncludeSymbolsInPackage>
+      <IncludeFrameworkReferencesInPackage>false</IncludeFrameworkReferencesInPackage>
+      <NoPackageAnalysis>true</NoPackageAnalysis>
+  </PropertyGroup>
+
+      <!-- TODO: read in BasePackageVersion from somewhere useful -->
+  <PropertyGroup>
+      <BasePackageVersion>0.0.1</BasePackageVersion>
+      <PackageVersion Condition="'$(GitBranch)' == 'master'">$(BasePackageVersion)</PackageVersion>
+      <PackageVersion Condition="'$(GitBranch)' == 'develop'">$(BasePackageVersion)-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss)).dev</PackageVersion>
+      <PackageVersion Condition="'$(PackageVersion)' == ''">$(BasePackageVersion)-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss)).pr</PackageVersion>
+  </PropertyGroup>
+
+</Project>
