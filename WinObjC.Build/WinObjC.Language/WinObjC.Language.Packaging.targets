@@ -91,7 +91,7 @@
 
   </Target>
 
-  <Target Name="GetPackageVersion" Returns="$(PackageVersion)">
+  <Target Name="SetPackageVersion" BeforeTargets="GetPackageVersion" DependsOnTargets="$(GetPackageVersionDependsOn)" Returns="$(PackageVersion)">
     <!-- TODO: read in BasePackageVersion from somewhere useful -->
     <PropertyGroup>
       <BasePackageVersion>0.0.1</BasePackageVersion>

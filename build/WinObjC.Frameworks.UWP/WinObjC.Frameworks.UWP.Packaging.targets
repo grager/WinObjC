@@ -71,7 +71,7 @@
   </Target>
 
 
-  <Target Name="GetPackageVersion" Returns="$(PackageVersion)">
+  <Target Name="SetPackageVersion" BeforeTargets="GetPackageVersion" DependsOnTargets="$(GetPackageVersionDependsOn)" Returns="$(PackageVersion)">
     <PropertyGroup>
       <PackageVersion Condition="'$(GitBranch)' == 'master'">$(BasePackageVersion)</PackageVersion>
       <PackageVersion Condition="'$(GitBranch)' == 'develop'">$(BasePackageVersion)-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss)).dev</PackageVersion>
