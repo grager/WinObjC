@@ -6,7 +6,10 @@
         <InferLegacyPackageReferences>false</InferLegacyPackageReferences>
     </PropertyGroup>
 
-    <Target Name="SetPackageVersion" BeforeTargets="GetPackageVersion" DependsOnTargets="$(GetPackageVersionDependsOn)" Returns="$(PackageVersion)">
+  <PropertyGroup>
+    <GetPackageVersionDependsOn>SetPackageVersion$(GetPackageVersionDependsOn);</GetPackageVersionDependsOn>
+  </PropertyGroup>
+  <Target Name="SetPackageVersion" Returns="$(PackageVersion)">
         <!-- TODO: read in BasePackageVersion from somewhere useful -->
         <PropertyGroup>
             <BasePackageVersion>0.0.1</BasePackageVersion>
