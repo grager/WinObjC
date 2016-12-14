@@ -27,12 +27,9 @@
       <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
 
-      <!-- TODO: read in BasePackageVersion from somewhere useful -->
+  <!-- TODO: read in BasePackageVersion from somewhere useful -->
   <PropertyGroup>
       <BasePackageVersion>0.0.1</BasePackageVersion>
-      <PackageVersion Condition="'$(GitBranch)' == 'master'">$(BasePackageVersion)</PackageVersion>
-      <PackageVersion Condition="'$(GitBranch)' == 'develop'">$(BasePackageVersion)-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss)).dev</PackageVersion>
-      <PackageVersion Condition="'$(PackageVersion)' == ''">$(BasePackageVersion)-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss)).pr</PackageVersion>
   </PropertyGroup>
 
 </Project>

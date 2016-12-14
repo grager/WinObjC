@@ -54,4 +54,12 @@
           </PackageFile>
       </ItemGroup>
   </Target>
+
+  <Target Name="GetPackageVersion" Returns="$(PackageVersion)">
+    <PropertyGroup>
+      <PackageVersion Condition="'$(GitBranch)' == 'master'">$(BasePackageVersion)</PackageVersion>
+      <PackageVersion Condition="'$(GitBranch)' == 'develop'">$(BasePackageVersion)-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss)).dev</PackageVersion>
+      <PackageVersion Condition="'$(PackageVersion)' == ''">$(BasePackageVersion)-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss)).pr</PackageVersion>
+    </PropertyGroup>
+  </Target>
 </Project>

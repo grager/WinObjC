@@ -26,7 +26,7 @@
       <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
 
-      <!-- TODO: read in BasePackageVersion from somewhere useful -->
+  <!-- TODO: read in BasePackageVersion from somewhere useful -->
   <PropertyGroup>
       <BasePackageVersion>0.0.1</BasePackageVersion>
       <PackageVersion Condition="'$(GitBranch)' == 'master'">$(BasePackageVersion)</PackageVersion>
