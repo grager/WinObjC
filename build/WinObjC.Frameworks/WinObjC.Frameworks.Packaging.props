@@ -26,16 +26,27 @@
       <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
 
-  <!-- TODO: read in BasePackageVersion from somewhere useful -->
   <PropertyGroup>
     <GetPackageVersionDependsOn>SetPackageVersion;$(GetPackageVersionDependsOn);</GetPackageVersionDependsOn>
   </PropertyGroup>
-  <Target Name="SetPackageVersion" Returns="$(PackageVersion)">
+  <Target Name="SetPackageVersion" DependsOnTargets="$(GitVersionDependsOn)" Returns="$(PackageVersion)">
+
+    <Error Text="Cannot determine git branch. Please make sure GitInfo is listed in the project.json for this project and that git.exe is part of the PATH environment variable." Condition="'$(GitBranch)' == ''"/>
+
     <PropertyGroup>
-      <BasePackageVersion>0.0.1</BasePackageVersion>
-      <PackageVersion Condition="'$(GitBranch)' == 'master'">$(BasePackageVersion)</PackageVersion>
-      <PackageVersion Condition="'$(GitBranch)' == 'develop'">$(BasePackageVersion)-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss)).dev</PackageVersion>
-      <PackageVersion Condition="'$(PackageVersion)' == ''">$(BasePackageVersion)-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss)).pr</PackageVersion>
+      <PackageVersion Condition="'$(GitBranch)' == 'master'">$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([System.DateTime]::Now.ToString(yyyyMMdd))</PackageVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition= "'$(ProjectExt)' != '.vcxproj'">
+      <PackageVersion Condition="'$(GitBranch)' == 'develop'">$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([MSBuild]::Add('$(GitBaseVersionPatch)', '1'))-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss)).dev</PackageVersion>
+      <PackageVersion Condition="'$(PackageVersion)' == ''">$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([MSBuild]::Add('$(GitBaseVersionPatch)', '1'))-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss)).pr</PackageVersion>
+    </PropertyGroup>
+
+    <!-- Lie about the version string when looking at a project reference to a .vcxproj. Really we want the "latest" here to pickup the just built bits
+         Which is why the current time is used above but in a .vcxproj project reference that time may be different (newer) than the one used to package it
+        for real. Instead claim its MAJOR.MINOR.PATCH - - which is what is produced when a project.json has a Version-* in it. -->
+    <PropertyGroup Condition= "'$(ProjectExt)' == '.vcxproj'">
+      <PackageVersion Condition="'$(PackageVersion)' == ''">$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([MSBuild]::Add('$(GitBaseVersionPatch)', '1'))--</PackageVersion>
     </PropertyGroup>
   </Target>
 

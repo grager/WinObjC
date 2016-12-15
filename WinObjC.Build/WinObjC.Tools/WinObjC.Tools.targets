@@ -7,23 +7,14 @@
     </PropertyGroup>
 
   <PropertyGroup>
-    <GetPackageVersionDependsOn>SetPackageVersion$(GetPackageVersionDependsOn);</GetPackageVersionDependsOn>
+    <GetPackageVersionDependsOn>SetPackageVersion;$(GetPackageVersionDependsOn);</GetPackageVersionDependsOn>
   </PropertyGroup>
-  <Target Name="SetPackageVersion" Returns="$(PackageVersion)">
-        <!-- TODO: read in BasePackageVersion from somewhere useful -->
-        <PropertyGroup>
-            <BasePackageVersion>0.0.1</BasePackageVersion>
-        </PropertyGroup>
-        <PropertyGroup Condition="'$(GitBranch)' != 'develop' And '$(GitBranch)' != 'master'">
-            <PackageVersion>$(BasePackageVersion)-pr$([System.DateTime]::Now.ToString(yyyyMMddHHmmss))</PackageVersion>
-        </PropertyGroup>
-        <PropertyGroup Condition="'$(GitBranch)' == 'develop'">
-            <PackageVersion>$(BasePackageVersion)-dev$([System.DateTime]::Now.ToString(yyyyMMddHHmmss))</PackageVersion>
-        </PropertyGroup>
-        <PropertyGroup Condition="'$(GitBranch)' == 'master'">
-            <PackageVersion>$(BasePackageVersion)</PackageVersion>
-        </PropertyGroup>
-    </Target>
+  <Target Name="SetPackageVersion" DependsOnTargets="$(GitVersionDependsOn)" Returns="$(PackageVersion)">
+    <PropertyGroup>
+      <PackageVersion Condition="'$(GitBranch)' == 'master'">$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([System.DateTime]::Now.ToString(yyyyMMdd))</PackageVersion>
+      <PackageVersion Condition="'$(PackageVersion)' == ''">$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([MSBuild]::Add('$(GitBaseVersionPatch)', '1'))-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss))</PackageVersion>
+    </PropertyGroup>
+  </Target>
 
     <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents">
         <ItemGroup>

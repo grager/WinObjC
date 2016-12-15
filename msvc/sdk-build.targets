@@ -37,7 +37,7 @@
   <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents"  DependsOnTargets="$(GetPackageContentsDependsOn)" Condition="'$(ConfigurationType)' == 'DynamicLibrary' or '$(ConfigurationType)' == 'Application'">
     <ItemGroup>
       <!-- Public include folder for project  -->
-      <_IncludeFiles Include="$(MSBuildThisFileDirectory)..\include\$(RootNamespace)\**\*.*"/>
+      <_IncludeFiles Include="$(MSBuildThisFileDirectory)..\include\$(ProjectName)\**\*.*"/>
 
       <_ImportLibraryFileNames Include="@(Link -> '%(ImportLibrary)')">
       </_ImportLibraryFileNames>
