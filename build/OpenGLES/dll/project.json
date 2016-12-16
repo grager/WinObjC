@@ -1,8 +1,8 @@
 ﻿{
   "dependencies": {
     "ANGLE.WindowsStore": "2.1.6",
-    "WinObjC.Language": "0.0.1-*",
-    "NuGet.Build.Packaging": "0.1.163-pr61"
+    "WinObjC.Language": "0.2.160915-*",
+    "NuGet.Build.Packaging": "0.1.171-pr68"
   },
   "frameworks": {
     "uap10.0": { "imports": [ "native" ] }

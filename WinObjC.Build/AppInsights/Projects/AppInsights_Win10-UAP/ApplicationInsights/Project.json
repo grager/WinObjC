@@ -1,6 +1,6 @@
 ﻿{
   "dependencies": {
-    "NuGet.Build.Packaging": "0.1.163-pr61"
+    "NuGet.Build.Packaging": "0.1.171-pr68"
   },
   "frameworks": {
     "uap10.0": { }

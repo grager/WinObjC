@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <Target Name="CopyCoreFoundationPublicHeadersToIncludes">
+  <Target Name="CopyCoreFoundationPublicHeadersToIncludes"
+    Inputs="@(CoreFoundationPublicHeader)"  
+    Outputs="@(CoreFoundationPublicHeader -> '$(MSBuildThisFileDirectory)..\Include\CoreFoundation\%(Filename)%(Extension)')">
     <Copy
         SourceFiles="@(CoreFoundationPublicHeader)" 
         DestinationFolder="$(MSBuildThisFileDirectory)..\Include\CoreFoundation\" 
         ContinueOnError="true" 
         SkipUnchangedFiles="true"/>
   </Target>
-  <Target Name="CopyCoreFoundationPrivateHeadersToIncludes">
+  <Target Name="CopyCoreFoundationPrivateHeadersToIncludes"
+    Inputs="@(CoreFoundationPrivateHeader)"  
+    Outputs="@(CoreFoundationPrivateHeader -> '$(MSBuildThisFileDirectory)..\Frameworks\include\%(Filename)%(Extension)')">
     <Copy
         SourceFiles="@(CoreFoundationPrivateHeader)" 
         DestinationFolder="$(MSBuildThisFileDirectory)..\Frameworks\include\" 

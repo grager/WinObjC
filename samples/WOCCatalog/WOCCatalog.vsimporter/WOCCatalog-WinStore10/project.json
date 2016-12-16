@@ -1,6 +1,6 @@
 ﻿{
   "dependencies": {
-    "WinObjC.Frameworks": "0.0.1-*",
+    "WinObjC.Frameworks": "0.2.160915-*",
   },
   "frameworks": {
     "uap10.0": { }
