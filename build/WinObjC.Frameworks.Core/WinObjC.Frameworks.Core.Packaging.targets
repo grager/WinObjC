@@ -54,53 +54,5 @@
           </PackageFile>
       </ItemGroup>
   </Target>
-
-    <!-- A bit of a hack here for Project-to-Project(P2P) references for .nuprojs.
-       The usual trick of looking a tthe project extension won't work. Instead use the knowledge of the timestamps
-       of the input packaging items to figure out if a new version number is needed. If so, use the current time by 
-       touching an output file. Note this only works at the .nuproj level. It also requires some careful footwork to
-       get the package files without just relying on GetPackageContents as GetPackageContents depends on GetPackageVersion. -->
-  <Target Name="ComputePackageVersion" 
-    Inputs="@(PackageFile)" 
-    Outputs="$(_VersionFilePath)" 
-    DependsOnTargets="AddBuiltOutput;AddOtherConfigsBuiltOutput"
-    Condition="'$(ProjectExt)' == '.nuproj'">
-
-    <Touch Files="$(_VersionFilePath)" AlwaysCreate="true"/>
-
-  </Target>
-
-  <PropertyGroup>
-    <GetPackageVersionDependsOn>SetPackageVersion;$(GetPackageVersionDependsOn);</GetPackageVersionDependsOn>
-  </PropertyGroup>
-  <Target Name="SetPackageVersion" DependsOnTargets="$(GitVersionDependsOn);ComputePackageVersion" >
-
-    <Error Text="Cannot determine git branch. Please make sure GitInfo is listed in the project.json for this project and that git.exe is part of the PATH environment variable." Condition="'$(GitBranch)' == ''"/>
-
-    <PropertyGroup>
-      <PackageVersion Condition="'$(GitBranch)' == 'master'">$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([System.DateTime]::Now.ToString(yyyyMMdd))</PackageVersion>
-    </PropertyGroup>
-
-    <ItemGroup>
-      <_VersionFile Include="$(_VersionFilePath)"/>
-    </ItemGroup>
-
-    <PropertyGroup>
-      <PackageVersionTimestamp Condition="Exists('$(_VersionFilePath)')">$([System.DateTime]::Parse(%(_VersionFile.ModifiedTime)).ToString(yyyyMMddHHmmss))</PackageVersionTimestamp>
-      <PackageVersionTimestamp Condition="'$(PackageVersionTimestamp)' == '' ">$([System.DateTime]::Now.ToString(yyyyMMddHHmmss))</PackageVersionTimestamp>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(ProjectExt)' == '.nuproj'">
-      <PackageVersion Condition="'$(GitBranch)' == 'develop'">$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([MSBuild]::Add('$(GitBaseVersionPatch)', '1'))-$(PackageVersionTimestamp).dev</PackageVersion>
-      <PackageVersion Condition="'$(PackageVersion)' == ''">$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([MSBuild]::Add('$(GitBaseVersionPatch)', '1'))-$(PackageVersionTimestamp).pr</PackageVersion>
-    </PropertyGroup>
-
-    <!-- Lie about the version string when looking at a project reference to a .vcxproj. Really we want the "latest" here to pickup the just built bits
-         Which is why the current time is used above but in a .vcxproj project reference that time may be different (newer) than the one used to package it
-        for real. Instead claim its MAJOR.MINOR.PATCH - - which is what is produced when a project.json has a Version-* in it. -->
-    <PropertyGroup Condition="'$(ProjectExt)' != '.nuproj'">
-      <PackageVersion Condition="'$(PackageVersion)' == ''">$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([MSBuild]::Add('$(GitBaseVersionPatch)', '1'))--</PackageVersion>
-    </PropertyGroup>
-  </Target>
   
 </Project>

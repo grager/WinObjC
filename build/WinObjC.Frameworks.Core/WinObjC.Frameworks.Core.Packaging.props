@@ -25,18 +25,29 @@
       <IncludeFrameworkReferencesInPackage>false</IncludeFrameworkReferencesInPackage>
       <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
+  
+  <PropertyGroup>
+    <_VersionFilePath>$(IntDir)\$(PackageId).version</_VersionFilePath>
+  </PropertyGroup>
 
   <!-- A bit of a hack here for Project-to-Project(P2P) references for .nuprojs.
        The usual trick of looking a tthe project extension won't work. Instead use the knowledge of the timestamps
        of the input packaging items to figure out if a new version number is needed. If so, use the current time by 
        touching an output file. Note this only works at the .nuproj level. It also requires some careful footwork to
        get the package files without just relying on GetPackageContents as GetPackageContents depends on GetPackageVersion. -->
-  <Target Name="ComputePackageVersion" 
-    Inputs="@(PackageFile)" 
-    Outputs="$(_VersionFilePath)" 
-    DependsOnTargets="AddBuiltOutput;AddOtherConfigsBuiltOutput"
+  <Target Name="ComputePackageContentsThatExist" 
+    DependsOnTargets="GetPackageContents"
     Condition="'$(ProjectExt)' == '.nuproj'">
+    <ItemGroup>
+      <_PackageContentThatExist Include="@(_PackageContent)" Condition="Exists('%(FullPath)')"/>
+    </ItemGroup>
+  </Target>
 
+  <Target Name="ComputePackageVersion" 
+    Inputs="@(_PackageContentThatExist)" 
+    Outputs="$(_VersionFilePath)" 
+    DependsOnTargets="ComputePackageContentsThatExist"
+    Condition="'$(ProjectExt)' == '.nuproj'">
     <Touch Files="$(_VersionFilePath)" AlwaysCreate="true"/>
 
   </Target>

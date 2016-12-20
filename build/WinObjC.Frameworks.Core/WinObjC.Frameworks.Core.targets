@@ -30,7 +30,6 @@
 
         <!-- Add in the link bits only if its a "final" linked product likea  dll or exe -->
         <Link Condition="'$(ConfigurationType)' == 'DynamicLibrary' or '$(ConfigurationType)' == 'Application'">
-          <AdditionalDependencies>@(_ImportLibsFromPackage);%(AdditionalDependencies);</AdditionalDependencies>
           <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)\lib\$(TargetOsAndVersion)\$(PlatformTarget)\;%(AdditionalLibraryDirectories);</AdditionalLibraryDirectories>
         </Link>
     </ItemDefinitionGroup>
@@ -43,6 +42,8 @@
     </Reference>
 
     <ReferenceCopyLocalPaths Include="@(_LibsFromPackage)"/>
+
+    <Link Include="@(_ImportLibsFromPackage)"/>
 
   </ItemGroup>
 </Project>

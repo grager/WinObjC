@@ -47,7 +47,7 @@
       </_ImportLibraryFileNames>
 
       <PackageFile Include="@(_IncludeFiles)" Condition="Exists('%(FullPath)')">
-        <PackagePath>build\include\$(RootNamespace)\%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
+        <PackagePath>build\include\$(MSBuildProjectName)\%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
       </PackageFile>
       
       <PackageFile Include="@(BuiltProjectOutputGroupOutput -> '%(FinalOutputPath)')">
