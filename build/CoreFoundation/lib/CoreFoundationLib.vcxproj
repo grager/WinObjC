@@ -205,7 +205,7 @@
     <ProjectName>CoreFoundationLib</ProjectName>
     <RootNamespace>CoreFoundationLib</RootNamespace>
     <AppContainerApplication>true</AppContainerApplication>
-    <StarboardBasePath>..\..\..</StarboardBasePath>
+    <StarboardBasePath>$(MSBuildThisFileDirectory)..\..\..</StarboardBasePath>
     <OutputName>CoreFoundationLib</OutputName>
     
   </PropertyGroup>

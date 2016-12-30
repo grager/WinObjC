@@ -70,7 +70,7 @@
     <ProjectName>OpenGLESLib</ProjectName>
     <RootNamespace>OpenGLESLib</RootNamespace>
     <AppContainerApplication>true</AppContainerApplication>
-    <StarboardBasePath>..\..\..</StarboardBasePath>
+    <StarboardBasePath>$(MSBuildThisFileDirectory)..\..\..</StarboardBasePath>
     <OutputName>OpenGLESLib</OutputName>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">

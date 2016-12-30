@@ -19,14 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Foundation\dll\Foundation.vcxproj">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\..\..\Foundation\dll\Foundation.vcxproj">
       <Project>{86127226-9A6E-439B-A070-420A572AF0C7}</Project>
     </ProjectReference>
 
-    <ProjectReference Include="..\..\..\Starboard\dll\Starboard.vcxproj">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\..\..\Starboard\dll\Starboard.vcxproj">
       <Project>{0AC27ECF-E2AB-420B-9359-4843FFF4CBFA}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\AudioToolbox\lib\AudioToolboxLib.vcxproj">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\..\..\AudioToolbox\lib\AudioToolboxLib.vcxproj">
       <Project>{FBB81B8A-F021-4F71-9A07-E4DC835676FD}</Project>
     </ProjectReference>
 

@@ -32,7 +32,6 @@
   <PropertyGroup Label="Globals">
     <OutputPath>$(SolutionDir)\OutputPackages\$(Configuration)\</OutputPath>
     <ProjectGuid>1751f526-3ce3-46cb-8724-e250410d600e</ProjectGuid>
-    <InferLegacyPackageReferences>false</InferLegacyPackageReferences>
   </PropertyGroup>
   <ItemGroup>
     <None Include="project.json" />
@@ -48,10 +47,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CFNetwork\dll\CFNetwork.vcxproj" />
-    <ProjectReference Include="..\CoreFoundation\dll\CoreFoundation.vcxproj" />
-    <ProjectReference Include="..\Foundation\dll\Foundation.vcxproj" />
-    <ProjectReference Include="..\Starboard\dll\Starboard.vcxproj" />
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\CFNetwork\dll\CFNetwork.vcxproj" />
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\CoreFoundation\dll\CoreFoundation.vcxproj" />
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\Foundation\dll\Foundation.vcxproj" />
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\Starboard\dll\Starboard.vcxproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <Import Project="$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.targets" Condition="Exists('$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.targets')" />

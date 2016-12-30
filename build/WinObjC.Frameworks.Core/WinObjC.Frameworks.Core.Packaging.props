@@ -20,42 +20,16 @@
       </PackageLicenseUrl>
       <Copyright>Copyright © Microsoft</Copyright>
       <PackageTags>WinObjC.Frameworks.Core</PackageTags>
-      <IsDevelopmentDependency>true</IsDevelopmentDependency>
       <IncludeSymbolsInPackage>false</IncludeSymbolsInPackage>
       <IncludeFrameworkReferencesInPackage>false</IncludeFrameworkReferencesInPackage>
+      <InferLegacyPackageReferences>false</InferLegacyPackageReferences>
       <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
-  
-  <PropertyGroup>
-    <_VersionFilePath>$(IntDir)\$(PackageId).version</_VersionFilePath>
-  </PropertyGroup>
-
-  <!-- A bit of a hack here for Project-to-Project(P2P) references for .nuprojs.
-       The usual trick of looking a tthe project extension won't work. Instead use the knowledge of the timestamps
-       of the input packaging items to figure out if a new version number is needed. If so, use the current time by 
-       touching an output file. Note this only works at the .nuproj level. It also requires some careful footwork to
-       get the package files without just relying on GetPackageContents as GetPackageContents depends on GetPackageVersion. -->
-  <Target Name="ComputePackageContentsThatExist" 
-    DependsOnTargets="GetPackageContents"
-    Condition="'$(ProjectExt)' == '.nuproj'">
-    <ItemGroup>
-      <_PackageContentThatExist Include="@(_PackageContent)" Condition="Exists('%(FullPath)')"/>
-    </ItemGroup>
-  </Target>
-
-  <Target Name="ComputePackageVersion" 
-    Inputs="@(_PackageContentThatExist)" 
-    Outputs="$(_VersionFilePath)" 
-    DependsOnTargets="ComputePackageContentsThatExist"
-    Condition="'$(ProjectExt)' == '.nuproj'">
-    <Touch Files="$(_VersionFilePath)" AlwaysCreate="true"/>
-
-  </Target>
 
   <PropertyGroup>
     <GetPackageVersionDependsOn>SetPackageVersion;$(GetPackageVersionDependsOn);</GetPackageVersionDependsOn>
   </PropertyGroup>
-  <Target Name="SetPackageVersion" DependsOnTargets="$(GitVersionDependsOn);ComputePackageVersion" >
+  <Target Name="SetPackageVersion" DependsOnTargets="$(GitVersionDependsOn)" >
 
     <Error Text="Cannot determine git branch. Please make sure GitInfo is listed in the project.json for this project and that git.exe is part of the PATH environment variable." Condition="'$(GitBranch)' == ''"/>
 
@@ -63,18 +37,9 @@
       <PackageVersion Condition="'$(GitBranch)' == 'master'">$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([System.DateTime]::Now.ToString(yyyyMMdd))</PackageVersion>
     </PropertyGroup>
 
-    <ItemGroup>
-      <_VersionFile Include="$(_VersionFilePath)"/>
-    </ItemGroup>
-
-    <PropertyGroup>
-      <PackageVersionTimestamp Condition="Exists('$(_VersionFilePath)')">$([System.DateTime]::Parse(%(_VersionFile.ModifiedTime)).ToString(yyyyMMddHHmmss))</PackageVersionTimestamp>
-      <PackageVersionTimestamp Condition="'$(PackageVersionTimestamp)' == '' ">$([System.DateTime]::Now.ToString(yyyyMMddHHmmss))</PackageVersionTimestamp>
-    </PropertyGroup>
-
     <PropertyGroup Condition="'$(ProjectExt)' == '.nuproj'">
-      <PackageVersion Condition="'$(GitBranch)' == 'develop'">$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([MSBuild]::Add('$(GitBaseVersionPatch)', '1'))-$(PackageVersionTimestamp).dev</PackageVersion>
-      <PackageVersion Condition="'$(PackageVersion)' == ''">$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([MSBuild]::Add('$(GitBaseVersionPatch)', '1'))-$(PackageVersionTimestamp).pr</PackageVersion>
+      <PackageVersion Condition="'$(GitBranch)' == 'develop'">$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([MSBuild]::Add('$(GitBaseVersionPatch)', '1'))-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss)).dev</PackageVersion>
+      <PackageVersion Condition="'$(PackageVersion)' == ''">$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([MSBuild]::Add('$(GitBaseVersionPatch)', '1'))-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss)).pr</PackageVersion>
     </PropertyGroup>
 
     <!-- Lie about the version string when looking at a project reference to a .vcxproj. Really we want the "latest" here to pickup the just built bits

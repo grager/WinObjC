@@ -43,9 +43,21 @@
   </Target>
 
 
-  <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" Condition="'$(SkipGetPackageContentsForOtherPlatforms)' != 'true'">
+  <Target Name="AddBuiltOutput" BeforeTargets="GetPackageContents" DependsOnTargets="$(GitVersionDependsOn)" Condition="'$(SkipGetPackageContentsForOtherPlatforms)' != 'true'">
 
       <ItemGroup>
+          <PackageFile Include="WinObjC.Frameworks.UWP">
+            <Kind>Dependency</Kind>
+            <Version>$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([MSBuild]::Add('$(GitBaseVersionPatch)', '1'))--</Version>
+          </PackageFile>
+
+          <!-- Frameworks without a module that build them also need includes added (though how those still exist is a little curious) -->
+          <_ApplicationServiesIncludes Include="$(MSBuildThisFileDirectory)..\..\include\ApplicationServices\*.*"/>
+          
+          <PackageFile Include="@(_ApplicationServiesIncludes)" Condition="Exists('%(FullPath)')">
+              <PackagePath>build\include\ApplicationServices\%(Filename)%(Extension)</PackagePath>
+          </PackageFile>
+
           <PackageFile Include="$(MSBuildThisFileDirectory)$(PackageId).props" Condition="Exists('$(MSBuildThisFileDirectory)$(PackageId).props')">
               <PackagePath>build\$(PackageId).props</PackagePath>
           </PackageFile>

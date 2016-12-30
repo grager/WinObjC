@@ -661,8 +661,8 @@
 
 
   <PropertyGroup>
-    <FixAdditionalLibraryDirectoriesLinkDependsOn>FixAdditionalLibraryDirectoriesWinMD</FixAdditionalLibraryDirectoriesLinkDependsOn>
-    <FixAdditionalLibraryDirectoriesLinkDependsOn Condition="'$(XamlPreLinkDependsOn)' != ''">$(FixAdditionalLibraryDirectoriesLinkDependsOn);XamlPreLink</FixAdditionalLibraryDirectoriesLinkDependsOn>
+    <FixAdditionalLibraryDirectoriesLinkDependsOn>FixAdditionalLibraryDirectoriesWinMD;XamlPreLink</FixAdditionalLibraryDirectoriesLinkDependsOn>
+    <FixAdditionalLibraryDirectoriesLinkDependsOn Condition="'$(WindowsAppContainer)' == 'true'">$(FixAdditionalLibraryDirectoriesLinkDependsOn);XamlPreLink</FixAdditionalLibraryDirectoriesLinkDependsOn>
   </PropertyGroup>
 
   <!-- The build process for XAML files adds Link item(s) in between the execution of CreateWinMD and Link targets.

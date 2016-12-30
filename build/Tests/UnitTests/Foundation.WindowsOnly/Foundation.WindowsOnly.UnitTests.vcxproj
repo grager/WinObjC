@@ -19,17 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Starboard\dll\Starboard.vcxproj">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\..\..\Starboard\dll\Starboard.vcxproj">
       <Project>{0AC27ECF-E2AB-420B-9359-4843FFF4CBFA}</Project>
     </ProjectReference>
 
-    <ProjectReference Include="..\..\..\CFNetwork\dll\CFNetwork.vcxproj">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\..\..\CFNetwork\dll\CFNetwork.vcxproj">
       <Project>{16E0E9AE-8B17-4C4A-9960-BF90FB9F3424}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\CoreFoundation\dll\CoreFoundation.vcxproj">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\..\..\CoreFoundation\dll\CoreFoundation.vcxproj">
       <Project>{81F30AF6-EAC3-4DFA-929A-C25D69E8080B}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Foundation\lib\FoundationLib.vcxproj">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\..\..\Foundation\lib\FoundationLib.vcxproj">
       <Project>{7D635E25-0D8D-4B9A-B9DA-53185AB8A9E5}</Project>
     </ProjectReference>
 

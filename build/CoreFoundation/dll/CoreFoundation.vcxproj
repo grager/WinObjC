@@ -19,13 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Starboard\dll\Starboard.vcxproj">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\..\Starboard\dll\Starboard.vcxproj">
       <Project>{0AC27ECF-E2AB-420B-9359-4843FFF4CBFA}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\lib\CoreFoundationLib.vcxproj">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\lib\CoreFoundationLib.vcxproj">
       <Project>{DC123A21-ECF5-4C43-9E69-25CEA438EE94}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\CoreFoundationAdditions\lib\CoreFoundationAdditionsLib.vcxproj">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\..\CoreFoundationAdditions\lib\CoreFoundationAdditionsLib.vcxproj">
       <Project>{BC8C5D49-060C-4375-904C-FE472C757E58}</Project>
     </ProjectReference>
   </ItemGroup>
@@ -242,6 +242,12 @@
 
         <PackageFile Include="@(_DepsFiles)">
             <PackagePath>build\deps\prebuilt\$(TargetOsAndVersion)\$(PlatformTarget)\%(Filename)%(Extension)</PackagePath>
+        </PackageFile>
+
+        <_CoreFoundationContent Include="$(StarboardBasePath)\Frameworks\CoreFoundation\CharacterSets\**\*.*"/>
+
+        <PackageFile Include="@(_CoreFoundationContent)">
+            <PackagePath>build\content\%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
         </PackageFile>
     </ItemGroup>
   </Target>

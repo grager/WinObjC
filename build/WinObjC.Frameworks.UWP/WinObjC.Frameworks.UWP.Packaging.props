@@ -20,13 +20,12 @@
       </PackageLicenseUrl>
       <Copyright>Copyright © Microsoft</Copyright>
       <PackageTags>WinObjC.Frameworks.UWP</PackageTags>
-      <IsDevelopmentDependency>true</IsDevelopmentDependency>
       <IncludeSymbolsInPackage>false</IncludeSymbolsInPackage>
       <IncludeFrameworkReferencesInPackage>false</IncludeFrameworkReferencesInPackage>
       <NoPackageAnalysis>true</NoPackageAnalysis>
   </PropertyGroup>
 
-  <PropertyGroup>
+   <PropertyGroup>
     <GetPackageVersionDependsOn>SetPackageVersion;$(GetPackageVersionDependsOn);</GetPackageVersionDependsOn>
   </PropertyGroup>
   <Target Name="SetPackageVersion" DependsOnTargets="$(GitVersionDependsOn)" >
@@ -37,7 +36,7 @@
       <PackageVersion Condition="'$(GitBranch)' == 'master'">$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([System.DateTime]::Now.ToString(yyyyMMdd))</PackageVersion>
     </PropertyGroup>
 
-    <PropertyGroup Condition= "'$(ProjectExt)' != '.vcxproj'">
+    <PropertyGroup Condition="'$(ProjectExt)' == '.nuproj'">
       <PackageVersion Condition="'$(GitBranch)' == 'develop'">$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([MSBuild]::Add('$(GitBaseVersionPatch)', '1'))-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss)).dev</PackageVersion>
       <PackageVersion Condition="'$(PackageVersion)' == ''">$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([MSBuild]::Add('$(GitBaseVersionPatch)', '1'))-$([System.DateTime]::Now.ToString(yyyyMMddHHmmss)).pr</PackageVersion>
     </PropertyGroup>
@@ -45,7 +44,7 @@
     <!-- Lie about the version string when looking at a project reference to a .vcxproj. Really we want the "latest" here to pickup the just built bits
          Which is why the current time is used above but in a .vcxproj project reference that time may be different (newer) than the one used to package it
         for real. Instead claim its MAJOR.MINOR.PATCH - - which is what is produced when a project.json has a Version-* in it. -->
-    <PropertyGroup Condition= "'$(ProjectExt)' == '.vcxproj'">
+    <PropertyGroup Condition="'$(ProjectExt)' != '.nuproj'">
       <PackageVersion Condition="'$(PackageVersion)' == ''">$(GitBaseVersionMajor).$(GitBaseVersionMinor).$([MSBuild]::Add('$(GitBaseVersionPatch)', '1'))--</PackageVersion>
     </PropertyGroup>
   </Target>

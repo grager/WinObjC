@@ -21,12 +21,12 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1884d8f8-2c05-4334-a778-7d3c5a6736e8}</ProjectGuid>
     <Keyword>WindowsRuntimeComponent</Keyword>
-    <RootNamespace>UIKit</RootNamespace>
+    <RootNamespace>UIKit.Xaml</RootNamespace>
     <OutputName>UIKit.Xaml</OutputName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <AppContainerApplication>true</AppContainerApplication>
-    <StarboardBasePath>..\..\..</StarboardBasePath>
+    <StarboardBasePath>$(MSBuildThisFileDirectory)..\..\..</StarboardBasePath>
     <ApplicationType>Windows Store</ApplicationType>
     <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformMinVersion>10.0.10240.0</WindowsTargetPlatformMinVersion>
@@ -92,10 +92,6 @@
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
-    <PostBuildEvent>
-      <!-- Recursively copy all .xaml files to OutDir\UIKit.Xaml -->
-      <Command>xcopy /y /s /i "$(MSBuildThisFileDirectory)$(GeneratedFilesDir)*.xaml" "$(OutDir)UIKit.Xaml"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -112,10 +108,6 @@
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
-    <PostBuildEvent>
-      <!-- Recursively copy all .xaml files to OutDir\UIKit.Xaml -->
-      <Command>xcopy /y /s /i "$(MSBuildThisFileDirectory)$(GeneratedFilesDir)*.xaml" "$(OutDir)UIKit.Xaml"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
@@ -132,10 +124,6 @@
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
-    <PostBuildEvent>
-      <!-- Recursively copy all .xaml files to OutDir\UIKit.Xaml -->
-      <Command>xcopy /y /s /i "$(MSBuildThisFileDirectory)$(GeneratedFilesDir)*.xaml" "$(OutDir)UIKit.Xaml"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <ClCompile>
@@ -152,10 +140,6 @@
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
-    <PostBuildEvent>
-      <!-- Recursively copy all .xaml files to OutDir\UIKit.Xaml -->
-      <Command>xcopy /y /s /i "$(MSBuildThisFileDirectory)$(GeneratedFilesDir)*.xaml" "$(OutDir)UIKit.Xaml"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\Frameworks\UIKit.Xaml\Button.xaml.h">
@@ -227,7 +211,7 @@
     <Page Include="$(MSBuildThisFileDirectory)..\..\..\Frameworks\UIKit.Xaml\Themes\Generic.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Starboard\dll\Starboard.vcxproj">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)..\..\Starboard\dll\Starboard.vcxproj">
       <Project>{0ac27ecf-e2ab-420b-9359-4843fff4cbfa}</Project>
     </ProjectReference>
   </ItemGroup>
@@ -237,4 +221,16 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(StarboardBasePath)\msvc\sdk-build.targets" />
   </ImportGroup>
+  <Target Name="AddExtraPackageItems" BeforeTargets="GetPackageContents">
+    <ItemGroup>
+
+        <!-- Include Extra Deps for this project -->
+        <_XamlFiles Include="$(MSBuildThisFileDirectory)$(XamlGeneratedOutputPath)\**\*.xaml"/>
+
+        <PackageFile Include="@(_XamlFiles)">
+            <PackagePath>build\xaml\$(MSBuildProjectName)\%(RecursiveDir)%(Filename)%(Extension)</PackagePath>
+        </PackageFile>
+    </ItemGroup>
+  </Target>
+  
 </Project>

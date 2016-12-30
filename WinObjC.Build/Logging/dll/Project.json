@@ -1,10 +1,10 @@
 ﻿{
   "dependencies": {
     "GitInfo": "1.1.32",
-    "NuGet.Build.Packaging": "0.1.171-pr68"
+    "NuGet.Build.Packaging": "0.1.173"
   },
   "frameworks": {
-    "uap10.0": { }
+    "uap10.0": {}
   },
   "runtimes": {
     "win10-arm": {},
