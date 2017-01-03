@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\IwNew\lib\IwNewLib.vcxproj">
       <Project>{b16c8766-1d05-46c0-b231-10c3aa43c19b}</Project>
+      <IncludeInPackage>false</IncludeInPackage>
     </ProjectReference>
     <ProjectReference Include="..\..\Logging\dll\Logging.vcxproj">
       <Project>{862d36c2-cc83-4d04-b9b8-bef07f479905}</Project>
@@ -30,6 +31,7 @@
     </ProjectReference>
     <ProjectReference Include="..\lib\WOCStdLibLib.vcxproj">
       <Project>{17D1A01F-08ED-4903-BAE1-D446150CC7D5}</Project>
+      <IncludeInPackage>false</IncludeInPackage>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -268,15 +268,19 @@
   <ItemGroup>
     <ProjectReference Include="..\AppInsights\Projects\AppInsights_Win32\core\core.vcxproj">
       <Project>{f2377726-d69d-4a26-a3af-969fd0399427}</Project>
+      <IncludeInPackage>false</IncludeInPackage>
     </ProjectReference>
     <ProjectReference Include="PlistCpp\PlistCpp.vcxproj">
       <Project>{b25dbff1-1138-4413-8dc0-a2eebb4a7c28}</Project>
+      <IncludeInPackage>false</IncludeInPackage>
     </ProjectReference>
     <ProjectReference Include="pugixml\pugixml.vcxproj">
       <Project>{07cf01c0-b887-499d-ad9c-799cb6a9fe64}</Project>
+      <IncludeInPackage>false</IncludeInPackage>
     </ProjectReference>
     <ProjectReference Include="WBITelemetry\WBITelemetry.vcxproj">
       <Project>{23a635aa-6d82-4faa-b208-11c4c51bdb9d}</Project>
+      <IncludeInPackage>false</IncludeInPackage>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -27,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="$(MSBuildThisFileDirectory)..\lib\WinObjCRTLib.vcxproj">
       <Project>{faebdba2-dff7-4944-9b13-bcc4da340804}</Project>
+      <IncludeInPackage>false</IncludeInPackage>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">

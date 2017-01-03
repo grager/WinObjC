@@ -66,6 +66,7 @@
     </ProjectReference>
     <ProjectReference Include="..\lib\LoggingLib.vcxproj">
       <Project>{D3500720-CF56-43AB-A9D6-9DC119A411B8}</Project>
+      <IncludeInPackage>false</IncludeInPackage>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -111,9 +111,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\AppInsights\Projects\AppInsights_Win32\core\core.vcxproj">
       <Project>{f2377726-d69d-4a26-a3af-969fd0399427}</Project>
+      <IncludeInPackage>false</IncludeInPackage>
     </ProjectReference>
     <ProjectReference Include="..\WBITelemetry\WBITelemetry.vcxproj">
       <Project>{23a635aa-6d82-4faa-b208-11c4c51bdb9d}</Project>
+      <IncludeInPackage>false</IncludeInPackage>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
