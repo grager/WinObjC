@@ -1,7 +1,7 @@
 ﻿{
   "dependencies": {
     "GitInfo": "1.1.39",
-    "NuGet.Build.Packaging": "0.1.190"
+    "NuGet.Build.Packaging": "0.1.186"
   },
   "frameworks": {
     ".NETFramework,Version=v4.0": {

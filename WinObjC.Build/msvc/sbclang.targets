@@ -594,7 +594,7 @@
     </PropertyGroup>
     <ItemGroup>
       <ClCompile Include="_tmp" Condition="'$(_ShouldMakeTmpClCompile)' == 'true'"/>
-      <ClangCompile>
+      <ClangCompile Condition="'%(ClangCompile.Identity)' != ''">
           <IncludePaths>@(ClCompile->Metadata('AdditionalIncludeDirectories')->Distinct()->ClearMetadata());%(ClangCompile.IncludePaths);</IncludePaths>
       </ClangCompile>
       <ClCompile Remove="_tmp" Condition="'$(_ShouldMakeTmpClCompile)' == 'true'"/>
