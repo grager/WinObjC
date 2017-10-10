@@ -15,3 +15,31 @@
 //******************************************************************************
 
 // This header file is not yet implemented
+
+#pragma once
+
+#include <StarboardExport.h>
+#include <stdint.h>
+
+enum {
+    kCCPBKDF2,
+};
+
+
+typedef uint32_t CCPBKDFAlgorithm;
+
+enum {
+    kCCPRFHmacAlgSHA1,
+    kCCPRFHmacAlgSHA224,
+    kCCPRFHmacAlgSHA256,
+    kCCPRFHmacAlgSHA384,
+    kCCPRFHmacAlgSHA512
+};
+
+typedef int32_t CCHmacAlgorithm;
+
+unsigned
+CCCalibratePBKDF(CCPBKDFAlgorithm algorithm, size_t passwordLen, size_t saltLen,
+                 CCPseudoRandomAlgorithm prf, size_t derivedKeyLen, uint32_t msec);
+
+SB_EXTERNC_END
